@@ -54,7 +54,7 @@ const Stats = ({ totalDistance }: any) => {
   return (
     <div className="fixed bottom-10 right-10 bg-white z-20 p-4">
       <h1>Total distance: {totalDistance.toFixed(0)} km</h1>
-      <h1>Approx distance remaining {5000 - totalDistance.toFixed(0)} km</h1>
+      <h1>Approx distance remaining {15000 - totalDistance.toFixed(0)} km</h1>
     </div>
   );
 };
