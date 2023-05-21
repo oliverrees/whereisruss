@@ -1,0 +1,34 @@
+{
+  "name": "whereisruss",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@mapbox/togeojson": "^0.16.0",
+    "@tmcw/togeojson": "^5.6.1",
+    "@turf/length": "^6.5.0",
+    "@types/node": "20.2.1",
+    "@types/react": "18.2.6",
+    "@types/react-dom": "18.2.4",
+    "@xmldom/xmldom": "^0.8.7",
+    "autoprefixer": "10.4.14",
+    "eslint": "8.41.0",
+    "eslint-config-next": "13.4.3",
+    "gpxparser": "^3.0.8",
+    "jsdom": "^22.0.0",
+    "leaflet": "^1.9.4",
+    "next": "13.4.3",
+    "node-html-parser": "^6.1.5",
+    "postcss": "8.4.23",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-leaflet": "^4.2.1",
+    "tailwindcss": "3.3.2",
+    "typescript": "5.0.4"
+  }
+}
