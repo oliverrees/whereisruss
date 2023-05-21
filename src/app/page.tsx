@@ -1,6 +1,7 @@
 import { supabase } from "./lib/supabaseClient";
 import length from "@turf/length";
 import dynamic from "next/dynamic";
+import PlausibleProvider from "next-plausible";
 const Map = dynamic(() => import("./components/Map"), { ssr: false });
 
 async function getData() {
@@ -52,9 +53,11 @@ export default async function Page() {
 
 const Stats = ({ totalDistance }: any) => {
   return (
-    <div className="fixed bottom-10 right-10 bg-white z-20 p-4">
-      <h1>Total distance: {totalDistance.toFixed(0)} km</h1>
-      <h1>Approx distance remaining {15000 - totalDistance.toFixed(0)} km</h1>
-    </div>
+    <PlausibleProvider domain="whereisruss.vercel.app">
+      <div className="fixed bottom-10 right-10 bg-white z-20 p-4">
+        <h1>Total distance: {totalDistance.toFixed(0)} km</h1>
+        <h1>Approx distance remaining {15000 - totalDistance.toFixed(0)} km</h1>
+      </div>
+    </PlausibleProvider>
   );
 };

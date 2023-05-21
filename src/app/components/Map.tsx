@@ -41,9 +41,8 @@ const Map = ({ coords, titles }: Props) => {
           />
           {coords.map((activity: any, i: number) => {
             return (
-              <>
+              <div key={i}>
                 <Polyline
-                  key={activity.id}
                   pathOptions={{ fillColor: "red", color: color[0] }}
                   positions={activity}
                 />
@@ -61,7 +60,7 @@ const Map = ({ coords, titles }: Props) => {
                       <Popup>{titles[i]}</Popup>
                     </Marker>
                   )}
-              </>
+              </div>
             );
           })}
         </MapContainer>
