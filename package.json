@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mapbox/togeojson": "^0.16.0",
+    "@supabase/supabase-js": "^2.22.0",
     "@tmcw/togeojson": "^5.6.1",
     "@turf/length": "^6.5.0",
     "@types/node": "20.2.1",
