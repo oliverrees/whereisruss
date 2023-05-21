@@ -33,7 +33,7 @@ const Map = ({ coords, titles }: Props) => {
           center={[coords[0][0][0], coords[0][0][1]]}
           zoom={8}
           className="w-full h-screen"
-          scrollWheelZoom={false}
+          scrollWheelZoom={true}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
