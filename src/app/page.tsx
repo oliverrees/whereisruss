@@ -1,4 +1,4 @@
-import { supabase } from "../../lib/supabaseClient";
+import { supabase } from "./lib/supabaseClient";
 import length from "@turf/length";
 import dynamic from "next/dynamic";
 const Map = dynamic(() => import("./components/Map"), { ssr: false });
@@ -27,7 +27,7 @@ export default async function Page() {
   console.log(totalDistance);
 
   // Process coords of all activities
-  const titles = [];
+  const titles: any = [];
   const allCoords = data.map((activity) => {
     titles.push(activity.geo_json.features[0].properties.name);
     return activity.geo_json.features[0].geometry.coordinates;
@@ -35,7 +35,7 @@ export default async function Page() {
 
   // Reverse the first and second numbers in each coordinate pair
   allCoords.forEach((activity) => {
-    activity.forEach((coordinate) => {
+    activity.forEach((coordinate: any) => {
       const temp = coordinate[0];
       coordinate[0] = coordinate[1];
       coordinate[1] = temp;
@@ -50,7 +50,7 @@ export default async function Page() {
   );
 }
 
-const Stats = ({ totalDistance }) => {
+const Stats = ({ totalDistance }: any) => {
   return (
     <div className="fixed bottom-10 right-10 bg-white z-20 p-4">
       <h1>Total distance: {totalDistance.toFixed(0)} km</h1>

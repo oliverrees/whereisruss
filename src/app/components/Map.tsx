@@ -1,12 +1,14 @@
 "use client";
 import React from "react";
 import "leaflet/dist/leaflet.css";
-import { MapContainer } from "react-leaflet/MapContainer";
-import { TileLayer } from "react-leaflet/TileLayer";
-import { Marker } from "react-leaflet/Marker";
-import { Popup } from "react-leaflet/Popup";
-import { Polyline } from "react-leaflet/Polyline";
-import { useMap } from "react-leaflet/hooks";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Polyline,
+} from "react-leaflet";
+import L from "leaflet";
 
 type Props = {
   coords: any;
@@ -37,7 +39,7 @@ const Map = ({ coords, titles }: Props) => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           />
-          {coords.map((activity, i) => {
+          {coords.map((activity: any, i: number) => {
             return (
               <>
                 <Polyline
