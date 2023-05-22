@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { differenceInDays } from "date-fns";
+import React, { useState } from "react";
+import { differenceInDays, addDays, format } from "date-fns";
 import { Switch } from "@headlessui/react";
 import Link from "next/link";
 import GetWeather from "./GetWeather";
@@ -17,6 +17,8 @@ function classNames(...classes: any[]) {
 
 const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
   const [miles, setMiles] = useState(false);
+  const daysRemaining = ((15000 - totalDistance) / 60).toFixed(0);
+  const endDate = addDays(new Date(), parseInt(daysRemaining));
   const stats = [
     {
       label: "Yesterday's Distance",
@@ -33,7 +35,7 @@ const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
       },
     },
     {
-      label: "Approx distance remaining",
+      label: "Est. Distance remaining",
       value: {
         km: (15000 - parseInt(totalDistance.toFixed(0))).toFixed(0),
         miles: (
@@ -89,12 +91,29 @@ const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
               <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
                 {stat.label}
               </td>
-              <td className="px-4 py-2 md:py-4 text-sm text-gray-500">
-                {miles ? stat.value.miles : stat.value.km}{" "}
+              <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
+                {miles ? stat.value.miles : stat.value.km}
+                &nbsp;
                 {miles ? "miles" : "km"}
               </td>
             </tr>
           ))}
+          <tr>
+            <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
+              Est. Days Remaining
+            </td>
+            <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
+              {daysRemaining}
+            </td>
+          </tr>
+          <tr>
+            <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
+              Est. Finish Date
+            </td>
+            <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
+              {format(endDate, "dd/MM/yyyy")}
+            </td>
+          </tr>
           {/* <tr>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
               Weather at last location
