@@ -130,7 +130,7 @@ const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
         style={{ pointerEvents: "all" }}
         className="z-10 relative py-2 md:py-4 flex items-center bg-gray-50 justify-center gap-x-4 text-xs md:text-sm font-semibold"
       >
-        Kilometers
+        Kilometres
         <UnitSwitch miles={miles} setMiles={setMiles} />
         Miles
       </div>
