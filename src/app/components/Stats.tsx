@@ -49,7 +49,7 @@ const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
   return (
     <div className="fixed bottom-0 md:bottom-10 left-0 md:left-10 right-0 md:right-10 overflow-hidden shadow-lg md:rounded-lg z-20 md:max-w-sm">
       <div className="md:bg-white pb-2 pt-4">
-        <div className="text-xl md:text-4xl font-bold pl-4">
+        <div className="text-3xl md:text-4xl font-bold pl-4">
           Day {timeSinceStart}
         </div>
         <div className="pl-4 pt-2 font-semibold text-sm">#ProjectAfrica</div>
@@ -84,37 +84,38 @@ const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
           </Link>
         </div>
       </div>
-      <table className="w-full divide-y divide-gray-300 bg-white pt-4 md:pt-0">
-        <tbody className="divide-y divide-gray-200">
-          {stats.map((stat) => (
-            <tr key={stat.label}>
+      <div className="bg-white py-0.5 md:py-0">
+        <table className="w-full divide-y divide-gray-300 ">
+          <tbody className="divide-y divide-gray-200">
+            {stats.map((stat) => (
+              <tr key={stat.label}>
+                <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
+                  {stat.label}
+                </td>
+                <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
+                  {miles ? stat.value.miles : stat.value.km}
+                  &nbsp;
+                  {miles ? "miles" : "km"}
+                </td>
+              </tr>
+            ))}
+            <tr>
               <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
-                {stat.label}
+                Est. Days Remaining
               </td>
               <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
-                {miles ? stat.value.miles : stat.value.km}
-                &nbsp;
-                {miles ? "miles" : "km"}
+                {daysRemaining}
               </td>
             </tr>
-          ))}
-          <tr>
-            <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
-              Est. Days Remaining
-            </td>
-            <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
-              {daysRemaining}
-            </td>
-          </tr>
-          <tr>
-            <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
-              Est. Finish Date
-            </td>
-            <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
-              {format(endDate, "dd/MM/yyyy")}
-            </td>
-          </tr>
-          {/* <tr>
+            <tr>
+              <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
+                Est. Finish Date
+              </td>
+              <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
+                {format(endDate, "dd/MM/yyyy")}
+              </td>
+            </tr>
+            {/* <tr>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
               Weather at last location
             </td>
@@ -122,8 +123,9 @@ const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
               <GetWeather lat={coords[0][0][0]} lng={coords[0][0][1]} />
             </td>
           </tr> */}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
       <div className="py-2 md:py-4 flex items-center bg-gray-50 justify-center gap-x-4 text-xs md:text-sm font-semibold">
         KM
         <UnitSwitch miles={miles} setMiles={setMiles} />
