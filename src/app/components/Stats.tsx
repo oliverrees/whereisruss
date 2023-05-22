@@ -45,54 +45,51 @@ const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
   ];
   const timeSinceStart = differenceInDays(new Date(), new Date(2023, 3, 21));
   return (
-    <div className="fixed bottom-10 left-10 right-10 overflow-hidden bg-white shadow-lg rounded-lg z-20 md:max-w-sm">
-      <div className="text-3xl md:text-4xl font-bold mt-4 pl-4">
-        Day {timeSinceStart}
-      </div>
-      <div className="pl-4 pt-2 font-semibold">#ProjectAfrica</div>
-      <div className="pl-4 mt-2 mb-4 text-sm flex gap-x-4">
-        <Link
-          target="_blank"
-          className="border-b"
-          href="https://www.strava.com/athletes/22704023"
-        >
-          Strava
-        </Link>
-        <Link
-          target="_blank"
-          className="border-b"
-          href="https://www.patreon.com/HardestGeezer"
-        >
-          Patreon
-        </Link>
-        <Link
-          target="_blank"
-          className="border-b"
-          href="https://www.youtube.com/@hardestgeezer"
-        >
-          Youtube
-        </Link>
-        <Link
-          target="_blank"
-          className="border-b"
-          href="https://twitter.com/hardestgeezer"
-        >
-          Twitter
-        </Link>
-      </div>
-      <div className="py-4 flex items-center bg-gray-50 justify-center gap-x-4 text-sm font-semibold">
-        KM
-        <UnitSwitch miles={miles} setMiles={setMiles} />
-        Miles
+    <div className="fixed bottom-0 md:bottom-10 left-0 md:left-10 right-0 md:right-10 overflow-hidden bg-white shadow-lg md:rounded-lg z-20 md:max-w-sm">
+      <div className="bg-gray-50 pb-2 pt-4">
+        <div className="text-xl md:text-4xl font-bold pl-4">
+          Day {timeSinceStart}
+        </div>
+        <div className="pl-4 pt-2 font-semibold text-sm">#ProjectAfrica</div>
+        <div className="pl-4 mt-2 mb-2 md:mb-4 text-xs flex gap-x-4">
+          <Link
+            target="_blank"
+            className="border-b"
+            href="https://www.strava.com/athletes/22704023"
+          >
+            Strava
+          </Link>
+          <Link
+            target="_blank"
+            className="border-b"
+            href="https://www.patreon.com/HardestGeezer"
+          >
+            Patreon
+          </Link>
+          <Link
+            target="_blank"
+            className="border-b"
+            href="https://www.youtube.com/@hardestgeezer"
+          >
+            Youtube
+          </Link>
+          <Link
+            target="_blank"
+            className="border-b"
+            href="https://twitter.com/hardestgeezer"
+          >
+            Twitter
+          </Link>
+        </div>
       </div>
       <table className="w-full divide-y divide-gray-300">
-        <tbody className="divide-y divide-gray-200 bg-white">
+        <tbody className="divide-y divide-gray-200">
           {stats.map((stat) => (
             <tr key={stat.label}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
                 {stat.label}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-4 py-2 md:py-4 text-sm text-gray-500">
                 {miles ? stat.value.miles : stat.value.km}{" "}
                 {miles ? "miles" : "km"}
               </td>
@@ -108,6 +105,11 @@ const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
           </tr> */}
         </tbody>
       </table>
+      <div className="py-2 md:py-4 flex items-center bg-gray-50 justify-center gap-x-4 text-xs md:text-sm font-semibold">
+        KM
+        <UnitSwitch miles={miles} setMiles={setMiles} />
+        Miles
+      </div>
     </div>
   );
 };
