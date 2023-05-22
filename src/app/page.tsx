@@ -6,6 +6,8 @@ const Map = dynamic(() => import("./components/Map"), { ssr: false });
 import Stats from "./components/Stats";
 import { processData } from "./functions/processData";
 
+export const revalidate = 60;
+
 async function getData() {
   // Get GEOJson
   const { data, error } = await supabase
