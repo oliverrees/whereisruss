@@ -47,13 +47,13 @@ const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
   ];
   const timeSinceStart = differenceInDays(new Date(), new Date(2023, 3, 21));
   return (
-    <div className="fixed bottom-0 md:bottom-10 left-0 md:left-10 right-0 md:right-10 overflow-hidden shadow-lg md:rounded-lg z-20 md:max-w-sm">
-      <div className="md:bg-white pb-2 pt-4">
+    <div className="fixed bottom-0 md:bottom-10 left-0 md:left-10 right-0 md:right-10 overflow-hidden pointer-events-none shadow-lg md:rounded-lg z-20 md:max-w-sm">
+      <div className="md:bg-white pb-2 pt-4 ">
         <div className="text-3xl md:text-4xl font-bold pl-4">
           Day {timeSinceStart}
         </div>
         <div className="pl-4 pt-2 font-semibold text-sm">#ProjectAfrica</div>
-        <div className="pl-4 mt-2 mb-2 md:mb-0 text-xs flex gap-x-4">
+        <div className="pl-4 mt-2 mb-2 md:mb-0 text-xs flex gap-x-4 pointer-events-auto">
           <Link
             target="_blank"
             className="border-b"
@@ -126,7 +126,10 @@ const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
           </tbody>
         </table>
       </div>
-      <div className="py-2 md:py-4 flex items-center bg-gray-50 justify-center gap-x-4 text-xs md:text-sm font-semibold">
+      <div
+        style={{ pointerEvents: "all" }}
+        className="z-10 relative py-2 md:py-4 flex items-center bg-gray-50 justify-center gap-x-4 text-xs md:text-sm font-semibold"
+      >
         KM
         <UnitSwitch miles={miles} setMiles={setMiles} />
         Miles
