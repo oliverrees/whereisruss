@@ -28,10 +28,10 @@ const color = [
 const Map = ({ coords, titles }: Props) => {
   return (
     <>
-      <div className="min-h-screen z-0 relative w-full">
+      <div className="h-full fixed top-0 left-0 bottom-0 right-0 z-0 w-full">
         <MapContainer
           center={[coords[0][0][0], coords[0][0][1]]}
-          zoom={8}
+          zoom={7}
           className="w-full h-screen"
           scrollWheelZoom={true}
         >

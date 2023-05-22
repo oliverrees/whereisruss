@@ -47,13 +47,13 @@ const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
   ];
   const timeSinceStart = differenceInDays(new Date(), new Date(2023, 3, 21));
   return (
-    <div className="fixed bottom-0 md:bottom-10 left-0 md:left-10 right-0 md:right-10 overflow-hidden bg-white shadow-lg md:rounded-lg z-20 md:max-w-sm">
-      <div className="bg-gray-50 pb-2 pt-4">
+    <div className="fixed bottom-0 md:bottom-10 left-0 md:left-10 right-0 md:right-10 overflow-hidden shadow-lg md:rounded-lg z-20 md:max-w-sm">
+      <div className="md:bg-white pb-2 pt-4">
         <div className="text-xl md:text-4xl font-bold pl-4">
           Day {timeSinceStart}
         </div>
         <div className="pl-4 pt-2 font-semibold text-sm">#ProjectAfrica</div>
-        <div className="pl-4 mt-2 mb-2 md:mb-4 text-xs flex gap-x-4">
+        <div className="pl-4 mt-2 mb-2 md:mb-0 text-xs flex gap-x-4">
           <Link
             target="_blank"
             className="border-b"
@@ -84,7 +84,7 @@ const Stats = ({ totalDistance, lastDistance, coords }: Props) => {
           </Link>
         </div>
       </div>
-      <table className="w-full divide-y divide-gray-300">
+      <table className="w-full divide-y divide-gray-300 bg-white pt-4 md:pt-0">
         <tbody className="divide-y divide-gray-200">
           {stats.map((stat) => (
             <tr key={stat.label}>

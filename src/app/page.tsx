@@ -27,12 +27,14 @@ export default async function Page() {
 
   return (
     <PlausibleProvider domain="whereisruss.vercel.app">
-      <Stats
-        totalDistance={processedData.totalDistance}
-        lastDistance={processedData.lastDistance}
-        coords={processedData.allCoords}
-      />
-      <Map coords={processedData.allCoords} titles={processedData.titles} />
+      <div className="w-full h-full overflow-hidden">
+        <Stats
+          totalDistance={processedData.totalDistance}
+          lastDistance={processedData.lastDistance}
+          coords={processedData.allCoords}
+        />
+        <Map coords={processedData.allCoords} titles={processedData.titles} />
+      </div>
     </PlausibleProvider>
   );
 }
