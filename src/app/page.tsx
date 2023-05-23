@@ -8,21 +8,11 @@ import { processData } from "./functions/processData";
 
 export const revalidate = 60;
 
-async function getData() {
-  // Get GEOJson
+export default async function Page() {
   const { data, error } = await supabase
     .from("russ-activities")
     .select("geo_json, activity_id")
     .order("activity_id", { ascending: false });
-
-  if (error) {
-    throw new Error("Failed to fetch data");
-  }
-  return data;
-}
-
-export default async function Page() {
-  const data = await getData();
   const processedData = processData(data);
 
   return (
