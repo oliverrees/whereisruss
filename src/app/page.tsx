@@ -14,8 +14,9 @@ export const revalidate = 0;
 
 export default function Page() {
   const [open, setOpen] = useState(false);
-  const [dayData, setDayData] = useState({});
   const [data, setData]: any = useState([]);
+  const [rawData, setRawData]: any = useState([]);
+  const [dayNumber, setDayNumber] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -23,27 +24,32 @@ export default function Page() {
         .from("russ-activities")
         .select("geo_json, activity_id")
         .order("activity_id", { ascending: false });
-      setData(data);
+      setData(processData(data));
+      setRawData(data);
     };
     getData();
   }, []);
 
   if (data.length == 0) return <Loading />;
-  const processedData = processData(data);
   return (
     <PlausibleProvider domain="whereisruss.vercel.app">
       <div className="w-full h-full overflow-hidden">
-        <Sidebar dayData={dayData} data={data} open={open} setOpen={setOpen} />
+        <Sidebar
+          open={open}
+          setOpen={setOpen}
+          rawData={rawData}
+          day={dayNumber}
+        />
         <Stats
-          totalDistance={processedData.totalDistance}
-          lastDistance={processedData.lastDistance}
-          coords={processedData.allCoords}
+          totalDistance={data.totalDistance}
+          lastDistance={data.lastDistance}
+          coords={data.allCoords}
         />
         <Map
-          coords={processedData.allCoords}
-          titles={processedData.titles}
+          coords={data.allCoords}
+          titles={data.titles}
           setOpen={setOpen}
-          setDayData={setDayData}
+          setDayNumber={setDayNumber}
         />
       </div>
     </PlausibleProvider>

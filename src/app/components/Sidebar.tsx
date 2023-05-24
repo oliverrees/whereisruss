@@ -2,15 +2,15 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { PencilIcon, PlusIcon } from "@heroicons/react/20/solid";
+import Link from "next/link";
 
 import length from "@turf/length";
 
 interface sidebarProps {
-  dayData: any;
+  rawData: any;
   open: boolean;
   setOpen: any;
-  data: any;
+  day: any;
 }
 
 const getElevation = (geojson: any) => {
@@ -21,16 +21,16 @@ const getElevation = (geojson: any) => {
     const elevationDifference =
       coordinates[index + 1][2] - coordinates[index][2];
     if (elevationDifference > 0) tempElevation += elevationDifference;
-    return tempElevation.toFixed(0);
   });
+  return tempElevation.toFixed(0);
 };
 
-export default function Sidebar({
-  dayData,
-  open,
-  setOpen,
-  data,
-}: sidebarProps) {
+export default function Sidebar({ open, setOpen, day, rawData }: sidebarProps) {
+  const relevantData = rawData[day];
+  const distance = length(relevantData.geo_json);
+  const elevation = getElevation(relevantData.geo_json.features[0].geometry);
+  const title = relevantData.geo_json.features[0].properties.name;
+  const stravaLink = `https://www.strava.com/activities/${relevantData.activity_id}`;
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-30" onClose={setOpen}>
@@ -85,46 +85,34 @@ export default function Sidebar({
                         <div className="mt-4 flex items-start justify-between">
                           <div>
                             <h2 className="text-base font-semibold leading-6 text-xl text-gray-900">
-                              {dayData.title}
+                              {title}
                             </h2>
                           </div>
                         </div>
                       </div>
                       <div>
-                        {/* <h3 className="font-medium text-gray-900">Stats</h3>
+                        <h3 className="font-medium text-gray-900">Stats</h3>
                         <dl className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
                           <div className="flex justify-between py-3 text-sm font-medium">
                             <dt className="text-gray-500">Distance Covered</dt>
-                            <dd className="text-gray-900">
-                              {distanceCovered} KM
-                            </dd>
+                            <dd className="text-gray-900">Coming Soon</dd>
                           </div>
                           <div className="flex justify-between py-3 text-sm font-medium">
                             <dt className="text-gray-500">Elevation</dt>
-                            <dd className="text-gray-900">{elevation} M</dd>
+                            <dd className="text-gray-900">Coming Soon</dd>
                           </div>
-                        </dl> */}
+                        </dl>
                       </div>
-                      {/* <div className="aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg">
-                        <blockquote class="twitter-tweet">
-                          <p lang="en" dir="ltr">
-                            Day 33 of running the entire length of Africa.
-                            Incredible support out here today🫡🇳🇦{" "}
-                            <a href="https://t.co/J7kicV8t6u">
-                              pic.twitter.com/J7kicV8t6u
-                            </a>
-                          </p>
-                          &mdash; Russ (@hardestgeezer){" "}
-                          <a href="https://twitter.com/hardestgeezer/status/1661422199704518682?ref_src=twsrc%5Etfw">
-                            May 24, 2023
-                          </a>
-                        </blockquote>{" "}
-                        <script
-                          async
-                          src="https://platform.twitter.com/widgets.js"
-                          charset="utf-8"
-                        ></script>
-                      </div> */}
+                      <div className="flex">
+                        <Link
+                          href={stravaLink}
+                          target="_blank"
+                          className="flex-1 rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 text-center"
+                        >
+                          View on Strava
+                        </Link>
+                      </div>
+                      <div className="aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg"></div>
                     </div>
                   </div>
                 </Dialog.Panel>

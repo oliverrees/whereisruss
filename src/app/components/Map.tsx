@@ -14,7 +14,7 @@ type Props = {
   coords: any;
   titles: any;
   setOpen: any;
-  setDayData: any;
+  setDayNumber: any;
 };
 
 const color = [
@@ -27,7 +27,7 @@ const color = [
   "#EE82EE",
 ];
 
-const Map = ({ coords, titles, setOpen, setDayData }: Props) => {
+const Map = ({ coords, titles, setOpen, setDayNumber }: Props) => {
   return (
     <>
       <div className="h-full fixed top-0 left-0 bottom-0 right-0 z-0 w-full">
@@ -59,11 +59,8 @@ const Map = ({ coords, titles, setOpen, setDayData }: Props) => {
                       })}
                       eventHandlers={{
                         click: (e) => {
-                          setDayData({
-                            i: i,
-                            title: titles[i],
-                          });
                           setOpen(true);
+                          setDayNumber(i);
                         },
                       }}
                       position={activity[activity.length - 1]}
