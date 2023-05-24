@@ -13,6 +13,8 @@ import L from "leaflet";
 type Props = {
   coords: any;
   titles: any;
+  setOpen: any;
+  setDayData: any;
 };
 
 const color = [
@@ -25,7 +27,7 @@ const color = [
   "#EE82EE",
 ];
 
-const Map = ({ coords, titles }: Props) => {
+const Map = ({ coords, titles, setOpen, setDayData }: Props) => {
   return (
     <>
       <div className="h-full fixed top-0 left-0 bottom-0 right-0 z-0 w-full">
@@ -55,10 +57,17 @@ const Map = ({ coords, titles }: Props) => {
                         iconAnchor: [12, 41],
                         popupAnchor: [1, -34],
                       })}
+                      eventHandlers={{
+                        click: (e) => {
+                          setDayData({
+                            i: i,
+                            title: titles[i],
+                          });
+                          setOpen(true);
+                        },
+                      }}
                       position={activity[activity.length - 1]}
-                    >
-                      <Popup>{titles[i]}</Popup>
-                    </Marker>
+                    />
                   )}
               </div>
             );

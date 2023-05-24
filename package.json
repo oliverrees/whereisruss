@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.14",
+    "@heroicons/react": "^2.0.18",
     "@mapbox/togeojson": "^0.16.0",
     "@supabase/supabase-js": "^2.22.0",
     "@tmcw/togeojson": "^5.6.1",
@@ -21,6 +22,7 @@
     "date-fns": "^2.30.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",
+    "geojson-elevation-gain": "^0.6.0",
     "jsdom": "^22.0.0",
     "leaflet": "^1.9.4",
     "next": "13.4.3",

@@ -1,7 +1,5 @@
 import length from "@turf/length";
 
-
-
 interface Result {
   totalDistance: number;
   lastDistance: number;
@@ -10,9 +8,8 @@ interface Result {
 }
 
 export const processData = (data: any): Result => {
-
   // Get total distance
-  const totalDistance = data.reduce((total : any, activity: any) => {
+  const totalDistance = data.reduce((total: any, activity: any) => {
     const distance = length(activity.geo_json);
     return total + distance;
   }, 0);
@@ -26,10 +23,9 @@ export const processData = (data: any): Result => {
 
   // Get last days distance
   const lastDistance = length(data[0].geo_json);
-  console.log(lastDistance);
 
   // Reverse the first and second numbers in each coordinate pair
-  allCoords.forEach((activity : any) => {
+  allCoords.forEach((activity: any) => {
     activity.forEach((coordinate: number[]) => {
       const temp = coordinate[0];
       coordinate[0] = coordinate[1];
@@ -43,4 +39,4 @@ export const processData = (data: any): Result => {
     allCoords,
     titles,
   };
-}
+};
