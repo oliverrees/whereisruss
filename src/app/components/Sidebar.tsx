@@ -13,28 +13,24 @@ interface sidebarProps {
   data: any;
 }
 
+const getElevation = (geojson: any) => {
+  let tempElevation = 0;
+  const { coordinates } = geojson;
+  coordinates.forEach((coord: any, index: any) => {
+    if (index === coordinates.length - 1) return;
+    const elevationDifference =
+      coordinates[index + 1][2] - coordinates[index][2];
+    if (elevationDifference > 0) tempElevation += elevationDifference;
+    return tempElevation.toFixed(0);
+  });
+};
+
 export default function Sidebar({
   dayData,
   open,
   setOpen,
   data,
 }: sidebarProps) {
-  const relevantI = dayData.i;
-  const relevantData = data[relevantI];
-  const distanceCovered = relevantI
-    ? length(relevantData.geo_json).toFixed(0)
-    : 0;
-  let elevation = 0;
-  if (open) {
-    // Calculate elevation
-    const { coordinates } = relevantData.geo_json.features[0].geometry;
-    coordinates.forEach((coord: any, index: any) => {
-      if (index === coordinates.length - 1) return; // stop 1 point early since comparison requires 2 points
-      const elevationDifference =
-        coordinates[index + 1][2] - coordinates[index][2];
-      if (elevationDifference > 0) elevation += elevationDifference;
-    });
-  }
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-30" onClose={setOpen}>
@@ -95,7 +91,7 @@ export default function Sidebar({
                         </div>
                       </div>
                       <div>
-                        <h3 className="font-medium text-gray-900">Stats</h3>
+                        {/* <h3 className="font-medium text-gray-900">Stats</h3>
                         <dl className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
                           <div className="flex justify-between py-3 text-sm font-medium">
                             <dt className="text-gray-500">Distance Covered</dt>
@@ -105,11 +101,9 @@ export default function Sidebar({
                           </div>
                           <div className="flex justify-between py-3 text-sm font-medium">
                             <dt className="text-gray-500">Elevation</dt>
-                            <dd className="text-gray-900">
-                              {elevation.toFixed(0)} M
-                            </dd>
+                            <dd className="text-gray-900">{elevation} M</dd>
                           </div>
-                        </dl>
+                        </dl> */}
                       </div>
                       {/* <div className="aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg">
                         <blockquote class="twitter-tweet">
