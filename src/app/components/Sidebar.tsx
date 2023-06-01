@@ -1,39 +1,79 @@
 "use client";
-import { Fragment, useState } from "react";
+import { differenceInDays, addDays, format } from "date-fns";
+import { Fragment, use, useEffect, useState } from "react";
+import { supabase } from "../lib/supabaseClient";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
-import length from "@turf/length";
+import { length, lineString } from "@turf/turf";
+import Weather from "./Weather";
 
 interface sidebarProps {
-  rawData: any;
+  data: any;
+  processedData: any;
   open: boolean;
   setOpen: any;
   day: any;
 }
 
 const getElevation = (geojson: any) => {
-  let tempElevation = 0;
-  const { coordinates } = geojson;
-  coordinates.forEach((coord: any, index: any) => {
-    if (index === coordinates.length - 1) return;
-    const elevationDifference =
-      coordinates[index + 1][2] - coordinates[index][2];
-    if (elevationDifference > 0) tempElevation += elevationDifference;
-  });
-  return tempElevation.toFixed(0);
+  const elevationData = lineString(
+    geojson.coordinates
+  ).geometry.coordinates.map((coord) => coord[2]);
+  let totalGain = 0;
+
+  for (let i = 0; i < elevationData.length - 1; i++) {
+    const elevationDiff = elevationData[i + 1] - elevationData[i];
+    if (elevationDiff > 0) {
+      totalGain += elevationDiff;
+    }
+  }
+  return totalGain.toFixed(0);
 };
 
-export default function Sidebar({ open, setOpen, day, rawData }: sidebarProps) {
-  const relevantData = rawData[day];
+export default function Sidebar({
+  open,
+  setOpen,
+  day,
+  data,
+  processedData,
+}: sidebarProps) {
+  const [weather, setWeather] = useState<any>(null);
+  const activityId = data[day].activity_id;
+  useEffect(() => {
+    if (open) {
+      const getWeatherData = async () => {
+        const { data } = await supabase
+          .from("russ-activities")
+          .select("weather")
+          .eq("activity_id", activityId);
+        if (data) {
+          setWeather(data[0].weather);
+        }
+      };
+      getWeatherData();
+    }
+  }, [open]);
+
+  const closeSidebar = () => {
+    setOpen(false);
+    setTimeout(() => {
+      setWeather(null);
+    }, 500);
+  };
+
+  const startDate = new Date("2023-04-22");
+  const relevantData = data[day];
   const distance = length(relevantData.geo_json);
   const elevation = getElevation(relevantData.geo_json.features[0].geometry);
-  const title = relevantData.geo_json.features[0].properties.name;
+  const title =
+    "Day " + (differenceInDays(new Date(relevantData.date), startDate) + 1);
+
   const stravaLink = `https://www.strava.com/activities/${relevantData.activity_id}`;
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-30" onClose={setOpen}>
+      <Dialog as="div" className="relative z-30" onClose={closeSidebar}>
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-500"
@@ -84,9 +124,15 @@ export default function Sidebar({ open, setOpen, day, rawData }: sidebarProps) {
                       <div>
                         <div className="mt-4 flex items-start justify-between">
                           <div>
-                            <h2 className="text-base font-semibold leading-6 text-xl text-gray-900">
+                            <h2 className="font-semibold leading-6 text-3xl text-gray-900">
                               {title}
                             </h2>
+                            <p className="mt-3 text-sm text-gray-500">
+                              {format(
+                                new Date(relevantData.date),
+                                "dd/MM/yyyy"
+                              )}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -95,24 +141,33 @@ export default function Sidebar({ open, setOpen, day, rawData }: sidebarProps) {
                         <dl className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
                           <div className="flex justify-between py-3 text-sm font-medium">
                             <dt className="text-gray-500">Distance Covered</dt>
-                            <dd className="text-gray-900">Coming Soon</dd>
+                            <dd className="text-gray-900">
+                              {distance.toFixed(0)} KM
+                            </dd>
                           </div>
                           <div className="flex justify-between py-3 text-sm font-medium">
-                            <dt className="text-gray-500">Elevation</dt>
-                            <dd className="text-gray-900">Coming Soon</dd>
+                            <dt className="text-gray-500">True Elevation*</dt>
+                            <dd className="text-gray-900">{elevation} M</dd>
                           </div>
                         </dl>
                       </div>
-                      <div className="flex">
+                      {weather && (
+                        <Weather weather={weather} date={relevantData.date} />
+                      )}
+                      <div className="absolute bottom-0 left-0 right-0 w-full">
+                        <div className="p-4 text-gray-400 text-xs">
+                          * True elevation measured with raw GPX data - this may
+                          be different to Strava's elevation data which uses a
+                          per split elevation model.
+                        </div>
                         <Link
                           href={stravaLink}
                           target="_blank"
-                          className="flex-1 rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 text-center"
+                          className="w-full flex justify-center bg-orange-600 px-3 py-4 text-sm font-semibold text-white text-center"
                         >
                           View on Strava
                         </Link>
                       </div>
-                      <div className="aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg"></div>
                     </div>
                   </div>
                 </Dialog.Panel>

@@ -17,7 +17,7 @@ export const processData = (data: any): Result => {
   // Process coords of all activities
   const titles: string[] = [];
   const allCoords: any = data.map((activity: any) => {
-    titles.push(activity.geo_json.features[0].properties.name);
+    titles.push(activity.date);
     return activity.geo_json.features[0].geometry.coordinates;
   });
 
