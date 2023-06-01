@@ -155,7 +155,7 @@ export default function Sidebar({
                         <Weather weather={weather} date={relevantData.date} />
                       )}
                       <div className="absolute bottom-0 left-0 right-0 w-full">
-                        <div className="p-4 text-gray-400 text-xs">
+                        <div className="p-4 text-gray-400 bg-white shadow-sm text-xs">
                           * True elevation measured with raw GPX data - this may
                           be different to Strava's elevation data which uses a
                           per split elevation model.
