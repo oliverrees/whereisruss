@@ -45,14 +45,6 @@ const Map = ({ setOpen, setDayNumber, data, processedData }: Props) => {
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           />
           {coords.map((activity: any, i: number) => {
-            // console.log(
-            //   titles[i],
-            //   "https://api.open-meteo.com/v1/forecast?latitude=" +
-            //     activity[0][0].toFixed(2) +
-            //     "&longitude=" +
-            //     activity[0][1].toFixed(2) +
-            //     "&daily=temperature_2m_max,temperature_2m_min,uv_index_max,windspeed_10m_max,shortwave_radiation_sum&past_days=61&forecast_days=1&timezone=auto"
-            // );
             return (
               <div key={i}>
                 <Polyline

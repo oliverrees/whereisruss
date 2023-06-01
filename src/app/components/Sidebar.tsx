@@ -119,7 +119,7 @@ export default function Sidebar({
                       </button>
                     </div>
                   </Transition.Child>
-                  <div className="h-full overflow-y-auto bg-white p-8">
+                  <div className="h-full overflow-y-auto bg-white p-8 pb-24">
                     <div className="space-y-6 pb-16">
                       <div>
                         <div className="mt-4 flex items-start justify-between">
@@ -155,10 +155,10 @@ export default function Sidebar({
                         <Weather weather={weather} date={relevantData.date} />
                       )}
                       <div className="absolute bottom-0 left-0 right-0 w-full">
-                        <div className="p-4 text-gray-400 bg-white shadow-sm text-xs">
-                          * True elevation measured with raw GPX data - this may
-                          be different to Strava's elevation data which uses a
-                          per split elevation model.
+                        <div className="p-4 text-gray-400 bg-white border-t text-xs">
+                          * True elevation measured with raw GPX data. This may
+                          differ from Strava's elevation which uses a per split
+                          model.
                         </div>
                         <Link
                           href={stravaLink}
