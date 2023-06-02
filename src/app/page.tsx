@@ -26,7 +26,8 @@ export default async function Page() {
         lastLat +
         "&longitude=" +
         lastLng +
-        "&hourly=temperature_2m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,windspeed_10m_max,precipitation_probability_max&forecast_days=1&timezone=auto"
+        "&hourly=temperature_2m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,windspeed_10m_max,precipitation_probability_max&forecast_days=1&timezone=auto",
+      { next: { revalidate: 60 } }
     );
 
     return await liveWeather.json();
