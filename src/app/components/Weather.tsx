@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { FaTemperatureHigh, FaWind, FaSun } from "react-icons/fa";
 type Props = {
