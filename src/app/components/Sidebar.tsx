@@ -119,7 +119,7 @@ export default function Sidebar({
                       </button>
                     </div>
                   </Transition.Child>
-                  <div className="h-full overflow-y-auto bg-white p-8 pb-24">
+                  <div className="h-full overflow-y-auto bg-white p-8 pb-36">
                     <div className="space-y-6 pb-16">
                       <div>
                         <div className="mt-4 flex items-start justify-between">
@@ -140,13 +140,13 @@ export default function Sidebar({
                         <h3 className="font-medium text-gray-900">Stats</h3>
                         <dl className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
                           <div className="flex justify-between py-3 text-sm font-medium">
-                            <dt className="text-gray-500">Distance Covered</dt>
+                            <dt className="text-gray-500">Distance Covered*</dt>
                             <dd className="text-gray-900">
                               {distance.toFixed(0)} KM
                             </dd>
                           </div>
                           <div className="flex justify-between py-3 text-sm font-medium">
-                            <dt className="text-gray-500">True Elevation*</dt>
+                            <dt className="text-gray-500">True Elevation**</dt>
                             <dd className="text-gray-900">{elevation} M</dd>
                           </div>
                         </dl>
@@ -156,9 +156,16 @@ export default function Sidebar({
                       )}
                       <div className="absolute bottom-0 left-0 right-0 w-full">
                         <div className="p-4 text-gray-400 bg-white border-t text-xs">
-                          * True elevation measured with raw GPX data. This may
-                          differ from Strava's elevation which uses a per split
-                          model.
+                          <div>
+                            * Distance measured with smooth geoJSON data to save
+                            on file space - accurate to ~1km. See Strava for the
+                            actual value.
+                          </div>
+                          <div className="mt-2">
+                            ** True elevation measured with raw GPX data. This
+                            may differ from Strava's elevation which uses a per
+                            split model.
+                          </div>
                         </div>
                         <Link
                           href={stravaLink}
