@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { FaSun, FaTemperatureHigh, FaWind } from "react-icons/fa";
 
