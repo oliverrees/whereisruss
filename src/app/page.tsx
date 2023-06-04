@@ -1,3 +1,4 @@
+"use client";
 import { supabase } from "./lib/supabaseClient";
 import dynamic from "next/dynamic";
 import PlausibleProvider from "next-plausible";

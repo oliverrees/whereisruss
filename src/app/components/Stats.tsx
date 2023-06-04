@@ -1,3 +1,4 @@
+"use client";
 import { differenceInDays, addDays, format } from "date-fns";
 import Link from "next/link";
 import StatsTable from "./StatsTable";
