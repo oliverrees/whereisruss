@@ -1,4 +1,3 @@
-"use client";
 import { supabase } from "./lib/supabaseClient";
 import dynamic from "next/dynamic";
 import PlausibleProvider from "next-plausible";
@@ -10,7 +9,7 @@ import Loading from "./components/Loading";
 import { processData } from "./functions/processData";
 import LiveWeather from "./components/LiveWeather";
 
-export const revalidate = 180;
+export const revalidate = 60;
 
 async function getLiveWeather(data: any) {
   const lastLat = data[0].geo_json.features[0].geometry.coordinates[0][1];

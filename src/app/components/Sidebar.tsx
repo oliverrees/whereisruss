@@ -1,4 +1,3 @@
-"use client";
 import { differenceInDays, format } from "date-fns";
 import { Fragment, useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
@@ -16,6 +15,8 @@ interface sidebarProps {
   setOpen: any;
   day: any;
 }
+
+export const revalidate = 600;
 
 const getElevation = (geojson: any) => {
   const elevationData = lineString(

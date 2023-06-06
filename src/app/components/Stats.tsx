@@ -1,4 +1,3 @@
-"use client";
 import { differenceInDays, addDays, format } from "date-fns";
 import Link from "next/link";
 import StatsTable from "./StatsTable";
@@ -6,6 +5,8 @@ import StatsTable from "./StatsTable";
 type Props = {
   processedData: any;
 };
+
+export const revalidate = 600;
 
 const Stats = ({ processedData }: Props) => {
   const totalDistance = processedData.totalDistance;

@@ -1,10 +1,11 @@
-"use client";
 import React from "react";
 import { FaSun, FaTemperatureHigh, FaWind } from "react-icons/fa";
 
 type Props = {
   data: any;
 };
+
+export const revalidate = 600;
 
 const LiveWeather = ({ data }: Props) => {
   const dailyWeather = data.daily;
