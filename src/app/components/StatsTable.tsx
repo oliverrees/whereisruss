@@ -11,13 +11,15 @@ function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }
 
+export const revalidate = 600;
+
 const StatsTable = ({ lastDistance, totalDistance }: Props) => {
   const daysRemaining = ((15000 - totalDistance) / 60).toFixed(0);
   const endDate = addDays(new Date(), parseInt(daysRemaining));
   const [miles, setMiles] = useState(false);
   const stats = [
     {
-      label: "Yesterday's Distance",
+      label: "Most Recent Distance",
       value: {
         km: lastDistance.toFixed(0),
         miles: (lastDistance * 0.621371).toFixed(0),
