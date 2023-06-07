@@ -12,7 +12,14 @@ const Stats = ({ processedData }: Props) => {
   const totalDistance = processedData.totalDistance;
   const lastDistance = processedData.lastDistance;
 
-  const timeSinceStart = differenceInDays(new Date(), new Date(2023, 3, 21));
+  const currentDate = new Date();
+  const year = currentDate.getUTCFullYear();
+  const month = currentDate.getUTCMonth() + 1;
+  const day = currentDate.getUTCDate();
+  const timeSinceStart = differenceInDays(
+    new Date(year, month, day),
+    new Date(2023, 4, 21)
+  );
   return (
     <div className="fixed bottom-0 md:bottom-10 left-0 md:left-10 right-0 md:right-10 overflow-hidden pointer-events-none shadow-lg md:rounded-lg z-20 md:max-w-sm">
       <div className="md:bg-white pb-2 pt-4 ">
