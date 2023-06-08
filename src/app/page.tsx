@@ -12,6 +12,7 @@ import LiveWeather from "./components/LiveWeather";
 export const revalidate = 60;
 
 async function getLiveWeather(data: any) {
+  if (!data) return;
   const lastLat = data[0].geo_json.features[0].geometry.coordinates[0][1];
   const lastLng = data[0].geo_json.features[0].geometry.coordinates[0][0];
 
