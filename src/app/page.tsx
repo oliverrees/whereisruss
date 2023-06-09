@@ -8,6 +8,7 @@ import Stats from "./components/Stats";
 import Loading from "./components/Loading";
 import { processData } from "./functions/processData";
 import LiveWeather from "./components/LiveWeather";
+import { use } from "react";
 
 export const revalidate = 60;
 
@@ -28,29 +29,23 @@ async function getLiveWeather(data: any) {
 }
 
 async function getData() {
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from("russ-activities")
     .select("geo_json, activity_id, date")
     .order("activity_id", { ascending: false });
-  if (error) console.log("error", error);
   return data;
 }
 
-export default async function Page() {
-  const data = await getData();
-  const liveWeather = await getLiveWeather(data);
-
-  const [locationData, liveWeatherData] = await Promise.all([
-    data,
-    liveWeather,
-  ]);
-  const processedData = processData(locationData);
+export default function Page() {
+  const data = use(getData());
+  const liveWeather = use(getLiveWeather(data));
+  const processedData = processData(data);
 
   if (!data) return <Loading />;
   return (
     <PlausibleProvider domain="whereisruss.vercel.app">
       <div className="w-full h-full overflow-hidden">
-        <LiveWeather data={liveWeatherData} />
+        <LiveWeather data={liveWeather} />
         <Stats processedData={processedData} />
         <MapHolder data={data} processedData={processedData} />
       </div>
