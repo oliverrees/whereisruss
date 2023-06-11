@@ -7,7 +7,7 @@ type Props = {
 
 const Weather = ({ weather, date }: Props) => {
   const position = weather.daily.time.indexOf(date);
-  const maxTemp = weather.daily.windspeed_10m_max[position];
+  const maxTemp = weather.daily.temperature_2m_max[position];
   const minTemp = weather.daily.temperature_2m_min[position];
   const uvIndex = weather.daily.uv_index_max[position];
   const windSpeed = weather.daily.windspeed_10m_max[position];
