@@ -9,7 +9,7 @@ import Loading from "./components/Loading";
 import { processData } from "./functions/processData";
 import LiveWeather from "./components/LiveWeather";
 
-export const revalidate = 600;
+export const revalidate = 60;
 
 async function getLiveWeather(data: any) {
   if (!data) return;
@@ -22,7 +22,7 @@ async function getLiveWeather(data: any) {
       "&longitude=" +
       lastLng +
       "&hourly=temperature_2m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,windspeed_10m_max,precipitation_probability_max&forecast_days=1&timezone=auto",
-    { next: { revalidate: 600 } }
+    { next: { revalidate: 60 } }
   );
   return await liveWeather.json();
 }
