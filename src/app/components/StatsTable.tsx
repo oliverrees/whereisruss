@@ -1,6 +1,6 @@
 "use client";
 import { Switch } from "@headlessui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { format, addDays } from "date-fns";
 interface Props {
   totalDistance: number;
@@ -14,9 +14,15 @@ function classNames(...classes: any[]) {
 export const revalidate = 600;
 
 const StatsTable = ({ lastDistance, totalDistance }: Props) => {
+  const [endDate, setEndDate] = useState<any>("..");
   const daysRemaining = ((15000 - totalDistance) / 60).toFixed(0);
-  const endDate = addDays(new Date(), parseInt(daysRemaining));
   const [miles, setMiles] = useState(false);
+
+  useEffect(() => {
+    const endDate = addDays(new Date(), parseInt(daysRemaining));
+    setEndDate(endDate);
+  }, [daysRemaining]);
+
   const stats = [
     {
       label: "Most Recent Distance",
@@ -72,8 +78,8 @@ const StatsTable = ({ lastDistance, totalDistance }: Props) => {
             <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
               Est. Finish Date
             </td>
-            <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
-              {format(endDate, "dd/MM/yyyy")}
+            <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500 w-48">
+              {endDate != ".." ? format(endDate, "dd/MM/yyyy") : ".."}
             </td>
           </tr>
           {/* <tr>
