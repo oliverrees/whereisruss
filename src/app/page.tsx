@@ -9,7 +9,7 @@ import Loading from "./components/Loading";
 import { processData } from "./functions/processData";
 import LiveWeather from "./components/LiveWeather";
 
-export const revalidate = 60;
+export const revalidate = 0;
 
 async function getLiveWeather(data: any) {
   if (!data) return;
