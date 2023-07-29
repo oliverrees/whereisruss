@@ -41,8 +41,19 @@ async function getData() {
 
 export default async function Page() {
   const data : any = await getData();
-  const joinedData : any = INITIAL_DATA.concat(data)
-  console.log(joinedData)
+
+  const joinedData : any = INITIAL_DATA.concat(data.map((activity: any) => {
+    // Reverse the first and second numbers in each coordinate pair
+      activity.geo_json.features[0].geometry.coordinates.forEach((coordinate: number[]) => {
+        const temp = coordinate[0];
+        coordinate[0] = coordinate[1];
+        coordinate[1] = temp;
+      });
+      return activity;
+    }))
+  
+  
+
 
   const liveWeather = await getLiveWeather(joinedData);
 

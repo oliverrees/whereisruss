@@ -24,13 +24,15 @@ export const processData = (data: any): Result => {
   // Get last days distance
   const lastDistance = length(data[0].geo_json);
 
-  // Reverse the first and second numbers in each coordinate pair
+  // data.map((activity: any) => {
+  // // Reverse the first and second numbers in each coordinate pair
   // allCoords.forEach((activity: any) => {
   //   activity.forEach((coordinate: number[]) => {
   //     const temp = coordinate[0];
   //     coordinate[0] = coordinate[1];
   //     coordinate[1] = temp;
   //   });
+  // });
   // });
 
   return {
