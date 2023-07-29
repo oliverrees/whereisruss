@@ -1,3 +1,4 @@
+
 import { supabase } from "./lib/supabaseClient";
 import dynamic from "next/dynamic";
 import PlausibleProvider from "next-plausible";
@@ -8,6 +9,7 @@ import Stats from "./components/Stats";
 import Loading from "./components/Loading";
 import { processData } from "./functions/processData";
 import LiveWeather from "./components/LiveWeather";
+import  INITIAL_DATA  from './data/99Day.json'
 
 export const revalidate = 0;
 
@@ -31,17 +33,21 @@ async function getData() {
   const { data, error } = await supabase
     .from("russ-activities")
     .select("geo_json, activity_id, date")
+    .gte('id', 116)
     .order("activity_id", { ascending: false });
   if (error) console.log("error", error);
   return data;
 }
 
 export default async function Page() {
-  const data = await getData();
-  const liveWeather = await getLiveWeather(data);
+  const data : any = await getData();
+  const joinedData : any = INITIAL_DATA.concat(data)
+  console.log(joinedData)
+
+  const liveWeather = await getLiveWeather(joinedData);
 
   const [locationData, liveWeatherData] = await Promise.all([
-    data,
+    joinedData,
     liveWeather,
   ]);
   const processedData = processData(locationData);
@@ -52,7 +58,7 @@ export default async function Page() {
       <div className="w-full h-full overflow-hidden">
         <LiveWeather data={liveWeatherData} />
         <Stats processedData={processedData} />
-        <MapHolder data={data} processedData={processedData} />
+        <MapHolder data={joinedData} processedData={processedData} />
       </div>
     </PlausibleProvider>
   );
