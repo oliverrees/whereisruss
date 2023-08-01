@@ -9,10 +9,6 @@ interface Props {
 }
 
 const MapHolder = ({ data, processedData }: Props) => {
-  useEffect(() => {
-    console.log(data)
-  }
-  , [data])
   const [open, setOpen] = useState(false);
   const [dayNumber, setDayNumber] = useState(0);
   return (

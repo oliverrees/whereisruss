@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import Loading from "./components/Loading";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
@@ -16,7 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <meta name="apple-mobile-web-app-capable" content="yes" />
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Suspense fallback={<Loading />}>
+        {children}
+        </Suspense>
+        </body>
     </html>
   );
 }

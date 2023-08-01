@@ -52,9 +52,6 @@ export default async function Page() {
       return activity;
     }))
   
-  
-
-
   const liveWeather = await getLiveWeather(joinedData);
 
   const [locationData, liveWeatherData] = await Promise.all([
@@ -63,7 +60,6 @@ export default async function Page() {
   ]);
   const processedData = processData(locationData);
 
-  if (!data) return <Loading />;
   return (
     <PlausibleProvider domain="whereisruss.vercel.app">
       <div className="w-full h-full overflow-hidden">
