@@ -7,6 +7,7 @@ import Link from "next/link";
 
 import { length, lineString } from "@turf/turf";
 import Weather from "./Weather";
+import { InfoWindow } from "./InfoWindow";
 
 interface sidebarProps {
   data: any;
@@ -138,6 +139,19 @@ export default function Sidebar({
                         </div>
                       </div>
                       <div>
+                        {relevantData.activity_id === "9584255228" && (
+                          <InfoWindow>
+                            Russ was separated from the support van after some
+                            impassable roads in the planned route.{" "}
+                            <Link
+                              href="https://twitter.com/hardestgeezer/status/1688280312441102337"
+                              target="new"
+                              className="underline"
+                            >
+                              Read more here
+                            </Link>
+                          </InfoWindow>
+                        )}
                         <h3 className="font-medium text-gray-900">Stats</h3>
                         <dl className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
                           <div className="flex justify-between py-3 text-sm font-medium">
