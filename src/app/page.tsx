@@ -1,4 +1,3 @@
-
 import { supabase } from "./lib/supabaseClient";
 import dynamic from "next/dynamic";
 import PlausibleProvider from "next-plausible";
@@ -9,7 +8,8 @@ import Stats from "./components/Stats";
 import Loading from "./components/Loading";
 import { processData } from "./functions/processData";
 import LiveWeather from "./components/LiveWeather";
-import  INITIAL_DATA  from './data/99Day.json'
+import INITIAL_DATA from "./data/128Day.json";
+import { useEffect } from "react";
 
 export const revalidate = 0;
 
@@ -33,25 +33,29 @@ async function getData() {
   const { data, error } = await supabase
     .from("russ-activities")
     .select("geo_json, activity_id, date")
-    .gte('id', 116)
+    .gte("id", 134)
     .order("activity_id", { ascending: false });
   if (error) console.log("error", error);
   return data;
 }
 
 export default async function Page() {
-  const data : any = await getData();
+  const data: any = await getData();
 
-  const joinedData : any = INITIAL_DATA.concat(data.map((activity: any) => {
-    // Reverse the first and second numbers in each coordinate pair
-      activity.geo_json.features[0].geometry.coordinates.forEach((coordinate: number[]) => {
-        const temp = coordinate[0];
-        coordinate[0] = coordinate[1];
-        coordinate[1] = temp;
-      });
+  const joinedData: any = INITIAL_DATA.concat(
+    data.map((activity: any) => {
+      // Reverse the first and second numbers in each coordinate pair
+      activity.geo_json.features[0].geometry.coordinates.forEach(
+        (coordinate: number[]) => {
+          const temp = coordinate[0];
+          coordinate[0] = coordinate[1];
+          coordinate[1] = temp;
+        }
+      );
       return activity;
-    }))
-  
+    })
+  );
+
   const liveWeather = await getLiveWeather(joinedData);
 
   const [locationData, liveWeatherData] = await Promise.all([
