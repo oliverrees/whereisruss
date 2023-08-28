@@ -33,7 +33,7 @@ async function getData() {
   const { data, error } = await supabase
     .from("russ-activities")
     .select("geo_json, activity_id, date")
-    .gte("id", 134)
+    .gte("id", 135)
     .order("activity_id", { ascending: false });
   if (error) console.log("error", error);
   return data;
