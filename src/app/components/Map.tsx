@@ -36,6 +36,8 @@ const Map = ({ setOpen, setDayNumber, data, processedData }: Props) => {
         <MapContainer
           center={[coords[0][0][0], coords[0][0][1]]}
           zoom={7}
+          maxZoom={10}
+          minZoom={4}
           className="w-full h-screen"
           scrollWheelZoom={true}
         >

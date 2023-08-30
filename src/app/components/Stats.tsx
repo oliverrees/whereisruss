@@ -11,7 +11,7 @@ type Props = {
 export const revalidate = 600;
 
 const Stats = ({ processedData }: Props) => {
-  const totalDistance = processedData.totalDistance + 40;
+  const totalDistance = processedData.totalDistance + 100;
   const lastDistance = processedData.lastDistance;
   const [timeSinceStart, setTimeSinceStart] = useState("..");
   useEffect(() => {

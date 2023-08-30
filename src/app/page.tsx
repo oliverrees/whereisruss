@@ -7,7 +7,7 @@ const MapHolder = dynamic(() => import("./components/MapHolder"), {
 import Stats from "./components/Stats";
 import { processData } from "./functions/processData";
 import LiveWeather from "./components/LiveWeather";
-import INITIAL_DATA from "./data/128Day.json";
+import INITIAL_DATA from "./data/lowerResDay128.json";
 
 export const revalidate = 0;
 
