@@ -19,10 +19,10 @@ export default function RootLayout({
     <html lang="en">
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <body className={inter.className}>
-        <Suspense fallback={<Loading />}>
+        {/* <Suspense fallback={<Loading />}> */}
         {children}
-        </Suspense>
-        </body>
+        {/* </Suspense> */}
+      </body>
     </html>
   );
 }

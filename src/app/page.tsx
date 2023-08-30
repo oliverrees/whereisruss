@@ -5,11 +5,9 @@ const MapHolder = dynamic(() => import("./components/MapHolder"), {
   ssr: false,
 });
 import Stats from "./components/Stats";
-import Loading from "./components/Loading";
 import { processData } from "./functions/processData";
 import LiveWeather from "./components/LiveWeather";
 import INITIAL_DATA from "./data/128Day.json";
-import { useEffect } from "react";
 
 export const revalidate = 0;
 
