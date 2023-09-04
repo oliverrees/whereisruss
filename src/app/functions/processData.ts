@@ -23,6 +23,7 @@ export const processData = (data: any): Result => {
 
   // Get last days distance
   const lastDistance = length(data[0].geo_json);
+  console.log(data[0]);
 
   // data.map((activity: any) => {
   // // Reverse the first and second numbers in each coordinate pair
