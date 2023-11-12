@@ -6,9 +6,10 @@ import Map from "./Map";
 interface Props {
   data: any;
   processedData: any;
+  showPins: boolean;
 }
 
-const MapHolder = ({ data, processedData }: Props) => {
+const MapHolder = ({ data, processedData, showPins }: Props) => {
   const [open, setOpen] = useState(false);
   const [dayNumber, setDayNumber] = useState(0);
   return (
@@ -21,6 +22,7 @@ const MapHolder = ({ data, processedData }: Props) => {
         processedData={processedData}
       />
       <Map
+        showPins={showPins}
         data={data}
         setOpen={setOpen}
         setDayNumber={setDayNumber}

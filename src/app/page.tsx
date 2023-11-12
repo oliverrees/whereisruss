@@ -1,5 +1,6 @@
-"use  client";
+"use client";
 import { supabase } from "./lib/supabaseClient";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import PlausibleProvider from "next-plausible";
 const MapHolder = dynamic(() => import("./components/MapHolder"), {
@@ -31,7 +32,7 @@ async function getLiveWeather(data: any) {
 async function getData() {
   const { data, error } = await supabase
     .from("russ-activities")
-    .select("geo_json, activity_id, date")
+    .select("geo_json, activity, activity_id, date")
     .gte("id", 135)
     .order("activity_id", { ascending: false });
   if (error) console.log("error", error);
@@ -39,19 +40,28 @@ async function getData() {
 }
 
 export default async function Page() {
+  const [showPins, setShowPins] = useState(true);
   const data: any = await getData();
 
-  const newData = data.map((activity: any) => {
-    // Reverse the first and second numbers in each coordinate pair
-    activity.geo_json.features[0].geometry.coordinates.forEach(
-      (coordinate: number[]) => {
-        const temp = coordinate[0];
-        coordinate[0] = coordinate[1];
-        coordinate[1] = temp;
+  const newData = data
+    .map((activity: any) => {
+      // Reverse the first and second numbers in each coordinate pair
+      if (!activity.geo_json) return;
+      try {
+        activity.geo_json.features[0].geometry.coordinates.forEach(
+          (coordinate: number[]) => {
+            const temp = coordinate[0];
+            coordinate[0] = coordinate[1];
+            coordinate[1] = temp;
+          }
+        );
+        return activity;
+      } catch (error) {
+        if (activity.geo_json) {
+        }
       }
-    );
-    return activity;
-  });
+    })
+    .filter((activity: any) => activity !== undefined);
 
   const joinedData: any = newData.concat(INITIAL_DATA);
 
@@ -67,8 +77,16 @@ export default async function Page() {
     <PlausibleProvider domain="whereisruss.vercel.app">
       <div className="w-full h-full overflow-hidden">
         <LiveWeather data={liveWeatherData} />
-        <Stats processedData={processedData} />
-        <MapHolder data={joinedData} processedData={processedData} />
+        <Stats
+          processedData={processedData}
+          showPins={showPins}
+          setShowPins={setShowPins}
+        />
+        <MapHolder
+          data={joinedData}
+          processedData={processedData}
+          showPins={showPins}
+        />
       </div>
     </PlausibleProvider>
   );

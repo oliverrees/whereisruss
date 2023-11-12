@@ -5,6 +5,8 @@ import { format, addDays } from "date-fns";
 interface Props {
   totalDistance: number;
   lastDistance: number;
+  setShowPins: any;
+  showPins: boolean;
 }
 
 function classNames(...classes: any[]) {
@@ -13,7 +15,12 @@ function classNames(...classes: any[]) {
 
 export const revalidate = 600;
 
-const StatsTable = ({ lastDistance, totalDistance }: Props) => {
+const StatsTable = ({
+  lastDistance,
+  totalDistance,
+  setShowPins,
+  showPins,
+}: Props) => {
   const [endDate, setEndDate] = useState<any>("..");
   const daysRemaining = ((15000 - totalDistance) / 60).toFixed(0);
   const [miles, setMiles] = useState(false);
@@ -100,6 +107,14 @@ const StatsTable = ({ lastDistance, totalDistance }: Props) => {
         <UnitSwitch miles={miles} setMiles={setMiles} />
         Miles
       </div>
+      {/* <div
+        style={{ pointerEvents: "all" }}
+        className="z-10 relative py-2 md:py-4 flex items-center bg-gray-50 justify-center gap-x-4 text-xs md:text-sm font-semibold"
+      >
+        Show Pins
+        <PinSwitch showPins={showPins} setShowPins={setShowPins} />
+        Hide Pins
+      </div> */}
     </div>
   );
 };
@@ -123,6 +138,32 @@ const UnitSwitch = ({ miles, setMiles }: UnitSwitchProps) => {
         aria-hidden="true"
         className={classNames(
           miles ? "translate-x-5" : "translate-x-0",
+          "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+        )}
+      />
+    </Switch>
+  );
+};
+
+interface PinSwitchProps {
+  showPins: boolean;
+  setShowPins: any;
+}
+
+const PinSwitch = ({ showPins, setShowPins }: PinSwitchProps) => {
+  return (
+    <Switch
+      checked={showPins}
+      onChange={setShowPins}
+      className={classNames(
+        "bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
+      )}
+    >
+      <span className="sr-only">Use setting</span>
+      <span
+        aria-hidden="true"
+        className={classNames(
+          showPins ? "translate-x-5" : "translate-x-0",
           "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
         )}
       />

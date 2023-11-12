@@ -14,6 +14,7 @@ type Props = {
   processedData: any;
   setOpen: any;
   setDayNumber: any;
+  showPins: boolean;
 };
 
 const color = [
@@ -26,7 +27,13 @@ const color = [
   "#EE82EE",
 ];
 
-const Map = ({ setOpen, setDayNumber, data, processedData }: Props) => {
+const Map = ({
+  setOpen,
+  setDayNumber,
+  data,
+  processedData,
+  showPins,
+}: Props) => {
   const coords = processedData.allCoords;
   const titles = processedData.titles;
 
@@ -36,7 +43,7 @@ const Map = ({ setOpen, setDayNumber, data, processedData }: Props) => {
         <MapContainer
           center={[coords[0][0][0], coords[0][0][1]]}
           zoom={7}
-          maxZoom={10}
+          maxZoom={12}
           minZoom={4}
           className="w-full h-screen"
           scrollWheelZoom={true}
@@ -52,7 +59,7 @@ const Map = ({ setOpen, setDayNumber, data, processedData }: Props) => {
                   pathOptions={{ fillColor: "red", color: color[0] }}
                   positions={activity}
                 />
-                {titles[i] && (
+                {showPins && titles[i] && (
                   <Marker
                     icon={L.icon({
                       iconUrl: "/marker-icon-2x.png",

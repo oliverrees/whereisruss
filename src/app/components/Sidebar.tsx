@@ -19,21 +19,6 @@ interface sidebarProps {
 
 export const revalidate = 600;
 
-const getElevation = (geojson: any) => {
-  const elevationData = lineString(
-    geojson.coordinates
-  ).geometry.coordinates.map((coord) => coord[2]);
-  let totalGain = 0;
-
-  for (let i = 0; i < elevationData.length - 1; i++) {
-    const elevationDiff = elevationData[i + 1] - elevationData[i];
-    if (elevationDiff > 0) {
-      totalGain += elevationDiff;
-    }
-  }
-  return totalGain.toFixed(0);
-};
-
 export default function Sidebar({
   open,
   setOpen,
@@ -67,8 +52,11 @@ export default function Sidebar({
 
   const startDate = new Date("2023-04-22");
   const relevantData = data[day];
-  const distance = length(relevantData.geo_json);
-  const elevation = getElevation(relevantData.geo_json.features[0].geometry);
+  console.log(relevantData.activity)
+  const distance = relevantData.activity ? relevantData.activity.distance : "?";
+  const elevation = relevantData.activity ? relevantData.activity.elevation : "?";;
+  const movingTime = relevantData.activity ? relevantData.activity.movingTime : "?";;
+  console.log(relevantData)
   const title =
     "Day " + (differenceInDays(new Date(relevantData.date), startDate) + 1);
 
@@ -157,12 +145,16 @@ export default function Sidebar({
                           <div className="flex justify-between py-3 text-sm font-medium">
                             <dt className="text-gray-500">Distance Covered*</dt>
                             <dd className="text-gray-900">
-                              {distance.toFixed(0)} KM
+                              {distance}
                             </dd>
                           </div>
                           <div className="flex justify-between py-3 text-sm font-medium">
-                            <dt className="text-gray-500">True Elevation**</dt>
-                            <dd className="text-gray-900">{elevation} M</dd>
+                            <dt className="text-gray-500">True Elevation</dt>
+                            <dd className="text-gray-900">{elevation}</dd>
+                          </div>
+                          <div className="flex justify-between py-3 text-sm font-medium">
+                            <dt className="text-gray-500">Moving Time</dt>
+                            <dd className="text-gray-900">{movingTime}</dd>
                           </div>
                         </dl>
                       </div>

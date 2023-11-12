@@ -6,11 +6,13 @@ import { useEffect, useState } from "react";
 
 type Props = {
   processedData: any;
+  setShowPins: any;
+  showPins: boolean;
 };
 
 export const revalidate = 600;
 
-const Stats = ({ processedData }: Props) => {
+const Stats = ({ processedData, setShowPins, showPins }: Props) => {
   const totalDistance = processedData.totalDistance + 100;
   const lastDistance = processedData.lastDistance;
   const [timeSinceStart, setTimeSinceStart] = useState("..");
@@ -64,7 +66,12 @@ const Stats = ({ processedData }: Props) => {
           </Link>
         </div>
       </div>
-      <StatsTable lastDistance={lastDistance} totalDistance={totalDistance} />
+      <StatsTable
+        lastDistance={lastDistance}
+        totalDistance={totalDistance}
+        showPins={showPins}
+        setShowPins={setShowPins}
+      />
     </div>
   );
 };
