@@ -34,7 +34,7 @@ async function getData() {
     .from("russ-activities")
     .select("geo_json, activity, activity_id, date")
     .gte("id", 135)
-    .order("activity_id", { ascending: false });
+    .order("date", { ascending: false });
   if (error) console.log("error", error);
   return data;
 }
