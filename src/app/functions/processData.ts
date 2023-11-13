@@ -33,6 +33,8 @@ export const processData = (data: any): Result => {
     }
   });
 
+  console.log(runTime);
+
   const totalRunTime = (
     runTime.hours +
     runTime.mins / 60 +

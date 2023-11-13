@@ -9,7 +9,6 @@ const MapHolder = dynamic(() => import("./components/MapHolder"), {
 import Stats from "./components/Stats";
 import { processData } from "./functions/processData";
 import LiveWeather from "./components/LiveWeather";
-import INITIAL_DATA from "./data/lowerResDay128.json";
 
 export const revalidate = 0;
 
@@ -41,7 +40,6 @@ async function getData() {
 export default async function Page() {
   const [showPins, setShowPins] = useState(true);
   const data: any = await getData();
-  let metaData: any = {};
 
   const newData = data
     .map((activity: any) => {
@@ -56,24 +54,15 @@ export default async function Page() {
         );
         return activity;
       } catch (error) {
-        metaData[activity.activity_id] = activity.activity;
       }
     })
     .filter((activity: any) => activity !== undefined);
 
-  const initialDataWithMeta = INITIAL_DATA.map((activity: any) => {
-    return {
-      ...activity,
-      activity: metaData[activity.activity_id],
-    };
-  });
 
-  const joinedData: any = newData.concat(initialDataWithMeta);
-
-  const liveWeather = await getLiveWeather(joinedData);
+  const liveWeather = await getLiveWeather(newData);
 
   const [locationData, liveWeatherData] = await Promise.all([
-    joinedData,
+    newData,
     liveWeather,
   ]);
   const processedData = processData(locationData);
@@ -88,7 +77,7 @@ export default async function Page() {
           setShowPins={setShowPins}
         />
         <MapHolder
-          data={joinedData}
+          data={newData}
           processedData={processedData}
           showPins={showPins}
         />
