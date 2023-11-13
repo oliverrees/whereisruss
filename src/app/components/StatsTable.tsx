@@ -3,8 +3,7 @@ import { Switch } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { format, addDays } from "date-fns";
 interface Props {
-  totalDistance: number;
-  lastDistance: number;
+  processedData: any;
   setShowPins: any;
   showPins: boolean;
 }
@@ -15,14 +14,9 @@ function classNames(...classes: any[]) {
 
 export const revalidate = 600;
 
-const StatsTable = ({
-  lastDistance,
-  totalDistance,
-  setShowPins,
-  showPins,
-}: Props) => {
+const StatsTable = ({ processedData, setShowPins, showPins }: Props) => {
   const [endDate, setEndDate] = useState<any>("..");
-  const daysRemaining = ((15000 - totalDistance) / 60).toFixed(0);
+  const daysRemaining = ((15000 - processedData.totalDistance) / 60).toFixed(0);
   const [miles, setMiles] = useState(false);
 
   useEffect(() => {
@@ -34,23 +28,32 @@ const StatsTable = ({
     {
       label: "Most Recent Distance",
       value: {
-        km: lastDistance.toFixed(0),
-        miles: (lastDistance * 0.621371).toFixed(0),
+        km: processedData.lastDistance.toFixed(0),
+        miles: (processedData.lastDistance * 0.621371).toFixed(0),
       },
     },
     {
       label: "Total distance",
       value: {
-        km: totalDistance.toFixed(0),
-        miles: (totalDistance * 0.621371).toFixed(0),
+        km: processedData.totalDistance.toFixed(0),
+        miles: (processedData.totalDistance * 0.621371).toFixed(0),
+      },
+    },
+    {
+      label: "Total elevation",
+      value: {
+        m: processedData.totalElevation.toFixed(0),
+        ft: (processedData.totalElevation * 0.621371).toFixed(0),
       },
     },
     {
       label: "Est. Distance remaining",
       value: {
-        km: (15000 - parseInt(totalDistance.toFixed(0))).toFixed(0),
+        km: (15000 - parseInt(processedData.totalDistance.toFixed(0))).toFixed(
+          0
+        ),
         miles: (
-          (15000 - parseInt(totalDistance.toFixed(0))) *
+          (15000 - parseInt(processedData.totalDistance.toFixed(0))) *
           0.621371
         ).toFixed(0),
       },
@@ -67,9 +70,21 @@ const StatsTable = ({
                 {stat.label}
               </td>
               <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
-                {miles ? stat.value.miles : stat.value.km}
+                {miles
+                  ? stat.value.miles
+                    ? stat.value.miles
+                    : stat.value.ft
+                  : stat.value.km
+                  ? stat.value.km
+                  : stat.value.m}
                 &nbsp;
-                {miles ? "miles" : "km"}
+                {miles
+                  ? stat.label == "Total elevation"
+                    ? "ft"
+                    : "miles"
+                  : stat.label == "Total elevation"
+                  ? "m"
+                  : "km"}
               </td>
             </tr>
           ))}

@@ -7,10 +7,9 @@ interface Props {
   data: any;
   processedData: any;
   showPins: boolean;
-  metaData: any;
 }
 
-const MapHolder = ({ data, processedData, showPins, metaData }: Props) => {
+const MapHolder = ({ data, processedData, showPins }: Props) => {
   const [open, setOpen] = useState(false);
   const [dayNumber, setDayNumber] = useState(0);
   return (
@@ -21,7 +20,6 @@ const MapHolder = ({ data, processedData, showPins, metaData }: Props) => {
         data={data}
         day={dayNumber}
         processedData={processedData}
-        metaData={metaData}
       />
       <Map
         showPins={showPins}

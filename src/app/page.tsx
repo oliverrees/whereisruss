@@ -61,7 +61,14 @@ export default async function Page() {
     })
     .filter((activity: any) => activity !== undefined);
 
-  const joinedData: any = newData.concat(INITIAL_DATA);
+  const initialDataWithMeta = INITIAL_DATA.map((activity: any) => {
+    return {
+      ...activity,
+      activity: metaData[activity.activity_id],
+    };
+  });
+
+  const joinedData: any = newData.concat(initialDataWithMeta);
 
   const liveWeather = await getLiveWeather(joinedData);
 
@@ -84,7 +91,6 @@ export default async function Page() {
           data={joinedData}
           processedData={processedData}
           showPins={showPins}
-          metaData={metaData}
         />
       </div>
     </PlausibleProvider>

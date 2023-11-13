@@ -3,15 +3,23 @@ import length from "@turf/length";
 interface Result {
   totalDistance: number;
   lastDistance: number;
+  totalElevation: number;
   allCoords: number[][];
   titles: string[];
 }
 
 export const processData = (data: any): Result => {
-  // Get total distance
+  // console.log(data, metaData);
+
+  // Add distance to each activity
   const totalDistance = data.reduce((total: any, activity: any) => {
-    const distance = length(activity.geo_json);
-    return total + distance;
+    const distance = activity.activity.distance.replace("km", "");
+    return total + parseFloat(distance);
+  }, 0);
+
+  const totalElevation = data.reduce((total: any, activity: any) => {
+    const elevation = activity.activity.elevation.replace("m", "");
+    return total + parseFloat(elevation);
   }, 0);
 
   // Process coords of all activities
@@ -22,22 +30,11 @@ export const processData = (data: any): Result => {
   });
 
   // Get last days distance
-  const lastDistance = length(data[0].geo_json);
-  console.log(data[0]);
-
-  // data.map((activity: any) => {
-  // // Reverse the first and second numbers in each coordinate pair
-  // allCoords.forEach((activity: any) => {
-  //   activity.forEach((coordinate: number[]) => {
-  //     const temp = coordinate[0];
-  //     coordinate[0] = coordinate[1];
-  //     coordinate[1] = temp;
-  //   });
-  // });
-  // });
+  const lastDistance = parseFloat(data[0].activity.distance.replace("km", ""));
 
   return {
     totalDistance,
+    totalElevation,
     lastDistance,
     allCoords,
     titles,

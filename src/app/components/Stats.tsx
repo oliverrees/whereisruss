@@ -13,8 +13,6 @@ type Props = {
 export const revalidate = 600;
 
 const Stats = ({ processedData, setShowPins, showPins }: Props) => {
-  const totalDistance = processedData.totalDistance + 100;
-  const lastDistance = processedData.lastDistance;
   const [timeSinceStart, setTimeSinceStart] = useState("..");
   useEffect(() => {
     const currentDate = new Date();
@@ -67,8 +65,7 @@ const Stats = ({ processedData, setShowPins, showPins }: Props) => {
         </div>
       </div>
       <StatsTable
-        lastDistance={lastDistance}
-        totalDistance={totalDistance}
+        processedData={processedData}
         showPins={showPins}
         setShowPins={setShowPins}
       />

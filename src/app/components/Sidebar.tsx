@@ -15,7 +15,6 @@ interface sidebarProps {
   open: boolean;
   setOpen: any;
   day: any;
-  metaData: any;
 }
 
 export const revalidate = 600;
@@ -26,7 +25,6 @@ export default function Sidebar({
   day,
   data,
   processedData,
-  metaData,
 }: sidebarProps) {
   const [weather, setWeather] = useState<any>(null);
   const activityId = data[day].activity_id;
@@ -54,16 +52,14 @@ export default function Sidebar({
 
   const startDate = new Date("2023-04-22");
   const relevantData = data[day];
-  const metaDataForDay = metaData[relevantData.activity_id];
-  const distance = relevantData.activity
-    ? relevantData.activity.distance
-    : metaDataForDay.distance;
+
+  const distance = relevantData.activity ? relevantData.activity.distance : "?";
   const elevation = relevantData.activity
     ? relevantData.activity.elevation
-    : metaDataForDay.elevation;
+    : "?";
   const movingTime = relevantData.activity
     ? relevantData.activity.movingTime
-    : metaDataForDay.movingTime;
+    : "?";
 
   const title =
     "Day " + (differenceInDays(new Date(relevantData.date), startDate) + 1);
@@ -151,11 +147,11 @@ export default function Sidebar({
                         <h3 className="font-medium text-gray-900">Stats</h3>
                         <dl className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
                           <div className="flex justify-between py-3 text-sm font-medium">
-                            <dt className="text-gray-500">Distance Covered*</dt>
+                            <dt className="text-gray-500">Distance Covered</dt>
                             <dd className="text-gray-900">{distance}</dd>
                           </div>
                           <div className="flex justify-between py-3 text-sm font-medium">
-                            <dt className="text-gray-500">True Elevation</dt>
+                            <dt className="text-gray-500">Elevation</dt>
                             <dd className="text-gray-900">{elevation}</dd>
                           </div>
                           <div className="flex justify-between py-3 text-sm font-medium">
@@ -168,18 +164,6 @@ export default function Sidebar({
                         <Weather weather={weather} date={relevantData.date} />
                       )}
                       <div className="absolute bottom-0 left-0 right-0 w-full">
-                        <div className="p-4 text-gray-400 bg-white border-t text-xs">
-                          <div>
-                            * Distance measured with smooth geoJSON data to save
-                            on file space - accurate to ~1km. See Strava for the
-                            actual value.
-                          </div>
-                          <div className="mt-2">
-                            ** True elevation measured with raw GPX data. This
-                            may differ from Strava's elevation which uses a per
-                            split model.
-                          </div>
-                        </div>
                         <Link
                           href={stravaLink}
                           target="_blank"
