@@ -15,6 +15,7 @@ interface sidebarProps {
   open: boolean;
   setOpen: any;
   day: any;
+  metaData: any;
 }
 
 export const revalidate = 600;
@@ -25,6 +26,7 @@ export default function Sidebar({
   day,
   data,
   processedData,
+  metaData,
 }: sidebarProps) {
   const [weather, setWeather] = useState<any>(null);
   const activityId = data[day].activity_id;
@@ -52,11 +54,17 @@ export default function Sidebar({
 
   const startDate = new Date("2023-04-22");
   const relevantData = data[day];
-  console.log(relevantData.activity)
-  const distance = relevantData.activity ? relevantData.activity.distance : "?";
-  const elevation = relevantData.activity ? relevantData.activity.elevation : "?";;
-  const movingTime = relevantData.activity ? relevantData.activity.movingTime : "?";;
-  console.log(relevantData)
+  const metaDataForDay = metaData[relevantData.activity_id];
+  const distance = relevantData.activity
+    ? relevantData.activity.distance
+    : metaDataForDay.distance;
+  const elevation = relevantData.activity
+    ? relevantData.activity.elevation
+    : metaDataForDay.elevation;
+  const movingTime = relevantData.activity
+    ? relevantData.activity.movingTime
+    : metaDataForDay.movingTime;
+
   const title =
     "Day " + (differenceInDays(new Date(relevantData.date), startDate) + 1);
 
@@ -144,9 +152,7 @@ export default function Sidebar({
                         <dl className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
                           <div className="flex justify-between py-3 text-sm font-medium">
                             <dt className="text-gray-500">Distance Covered*</dt>
-                            <dd className="text-gray-900">
-                              {distance}
-                            </dd>
+                            <dd className="text-gray-900">{distance}</dd>
                           </div>
                           <div className="flex justify-between py-3 text-sm font-medium">
                             <dt className="text-gray-500">True Elevation</dt>

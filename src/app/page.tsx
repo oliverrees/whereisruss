@@ -33,7 +33,6 @@ async function getData() {
   const { data, error } = await supabase
     .from("russ-activities")
     .select("geo_json, activity, activity_id, date")
-    .gte("id", 135)
     .order("date", { ascending: false });
   if (error) console.log("error", error);
   return data;
@@ -42,11 +41,11 @@ async function getData() {
 export default async function Page() {
   const [showPins, setShowPins] = useState(true);
   const data: any = await getData();
+  let metaData: any = {};
 
   const newData = data
     .map((activity: any) => {
       // Reverse the first and second numbers in each coordinate pair
-      if (!activity.geo_json) return;
       try {
         activity.geo_json.features[0].geometry.coordinates.forEach(
           (coordinate: number[]) => {
@@ -57,8 +56,7 @@ export default async function Page() {
         );
         return activity;
       } catch (error) {
-        if (activity.geo_json) {
-        }
+        metaData[activity.activity_id] = activity.activity;
       }
     })
     .filter((activity: any) => activity !== undefined);
@@ -86,6 +84,7 @@ export default async function Page() {
           data={joinedData}
           processedData={processedData}
           showPins={showPins}
+          metaData={metaData}
         />
       </div>
     </PlausibleProvider>
