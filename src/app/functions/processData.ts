@@ -4,6 +4,7 @@ interface Result {
   totalDistance: number;
   lastDistance: number;
   totalElevation: number;
+  totalRunTime: string;
   allCoords: number[][];
   titles: string[];
 }
@@ -16,6 +17,27 @@ export const processData = (data: any): Result => {
     const distance = activity.activity.distance.replace("km", "");
     return total + parseFloat(distance);
   }, 0);
+
+  const runTime = {
+    hours: 0,
+    mins: 0,
+    secs: 0,
+  };
+
+  data.forEach((activity: any) => {
+    const time = activity.activity.movingTime.split(":");
+    runTime.hours += parseInt(time[0]);
+    runTime.mins += parseInt(time[1]);
+    if (time[2]) {
+      runTime.secs += parseInt(time[2]);
+    }
+  });
+
+  const totalRunTime = (
+    runTime.hours +
+    runTime.mins / 60 +
+    runTime.secs / 3600
+  ).toFixed(0);
 
   const totalElevation = data.reduce((total: any, activity: any) => {
     const elevation = activity.activity.elevation.replace("m", "");
@@ -36,6 +58,7 @@ export const processData = (data: any): Result => {
     totalDistance,
     totalElevation,
     lastDistance,
+    totalRunTime,
     allCoords,
     titles,
   };
