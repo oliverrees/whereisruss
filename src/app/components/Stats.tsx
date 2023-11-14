@@ -5,14 +5,14 @@ import StatsTable from "./StatsTable";
 import { useEffect, useState } from "react";
 
 type Props = {
-  processedData: any;
-  setShowPins: any;
+  data: any;
+  onChangeShowPins: (pinStatus: boolean) => void;
   showPins: boolean;
 };
 
 export const revalidate = 600;
 
-const Stats = ({ processedData, setShowPins, showPins }: Props) => {
+const Stats = ({ data, onChangeShowPins, showPins }: Props) => {
   const [timeSinceStart, setTimeSinceStart] = useState("..");
   useEffect(() => {
     const currentDate = new Date();
@@ -65,9 +65,9 @@ const Stats = ({ processedData, setShowPins, showPins }: Props) => {
         </div>
       </div>
       <StatsTable
-        processedData={processedData}
+        data={data}
         showPins={showPins}
-        setShowPins={setShowPins}
+        onChangeShowPins={onChangeShowPins}
       />
     </div>
   );

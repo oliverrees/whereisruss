@@ -1,44 +1,33 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import "leaflet/dist/leaflet.css";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Polyline,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
 import L from "leaflet";
+import Stats from "./Stats";
+import Sidebar from "./Sidebar";
 
 type Props = {
   data: any;
-  processedData: any;
-  setOpen: any;
-  setDayNumber: any;
-  showPins: boolean;
 };
 
-const color = [
-  "#FF0000",
-  "#FFA500",
-  "#FFFF00",
-  "#008000",
-  "#0000FF",
-  "#4B0082",
-  "#EE82EE",
-];
-
-const Map = ({
-  setOpen,
-  setDayNumber,
-  data,
-  processedData,
-  showPins,
-}: Props) => {
-  const coords = processedData.allCoords;
-  const titles = processedData.titles;
+const Map = ({ data }: Props) => {
+  const [showPins, setShowPins] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [dayNumber, setDayNumber] = useState(1);
+  const coords = data.allCoords;
+  const titles = data.titles;
+  const onChangeShowPins = (pinStatus: boolean) => {
+    setShowPins(pinStatus);
+  };
 
   return (
     <>
+      <Stats
+        data={data}
+        showPins={showPins}
+        onChangeShowPins={onChangeShowPins}
+      />
+      <Sidebar open={open} setOpen={setOpen} day={dayNumber} data={data} />
       <div className="h-full fixed top-0 left-0 bottom-0 right-0 z-0 w-full">
         <MapContainer
           center={[coords[0][0][0], coords[0][0][1]]}
@@ -56,7 +45,7 @@ const Map = ({
             return (
               <div key={i}>
                 <Polyline
-                  pathOptions={{ fillColor: "red", color: color[0] }}
+                  pathOptions={{ fillColor: "red", color: "#FF0000" }}
                   positions={activity}
                 />
                 {showPins && titles[i] && (

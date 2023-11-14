@@ -1,12 +1,9 @@
-"use client";
 import { supabase } from "./lib/supabaseClient";
-import { useState } from "react";
 import dynamic from "next/dynamic";
 import PlausibleProvider from "next-plausible";
-const MapHolder = dynamic(() => import("./components/MapHolder"), {
+const Map = dynamic(() => import("./components/Map"), {
   ssr: false,
 });
-import Stats from "./components/Stats";
 import { processData } from "./functions/processData";
 import LiveWeather from "./components/LiveWeather";
 
@@ -38,10 +35,9 @@ async function getData() {
 }
 
 export default async function Page() {
-  const [showPins, setShowPins] = useState(true);
-  const data: any = await getData();
+  const retrievedData: any = await getData();
 
-  const filteredData = data
+  const filteredData = retrievedData
     .map((activity: any) => {
       // Reverse the first and second numbers in each coordinate pair for leaflet
       try {
@@ -63,22 +59,13 @@ export default async function Page() {
     filteredData,
     liveWeather,
   ]);
-  const processedData = processData(locationData);
+  const data = processData(locationData);
 
   return (
     <PlausibleProvider domain="whereisruss.vercel.app">
       <div className="w-full h-full overflow-hidden">
         <LiveWeather data={liveWeatherData} />
-        <Stats
-          processedData={processedData}
-          showPins={showPins}
-          setShowPins={setShowPins}
-        />
-        <MapHolder
-          data={filteredData}
-          processedData={processedData}
-          showPins={showPins}
-        />
+        <Map data={data} />
       </div>
     </PlausibleProvider>
   );

@@ -3,8 +3,8 @@ import { Switch } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { format, addDays } from "date-fns";
 interface Props {
-  processedData: any;
-  setShowPins: any;
+  data: any;
+  onChangeShowPins: (pinStatus: boolean) => void;
   showPins: boolean;
 }
 
@@ -14,10 +14,11 @@ function classNames(...classes: any[]) {
 
 export const revalidate = 600;
 
-const StatsTable = ({ processedData, setShowPins, showPins }: Props) => {
+const StatsTable = ({ data, onChangeShowPins, showPins }: Props) => {
   const [endDate, setEndDate] = useState<any>("..");
-  const daysRemaining = ((15000 - processedData.totalDistance) / 60).toFixed(0);
+  const daysRemaining = ((15000 - data.totalDistance) / 60).toFixed(0);
   const [miles, setMiles] = useState(false);
+  const [expandStats, setExpandStats] = useState(false);
 
   useEffect(() => {
     const endDate = addDays(new Date(), parseInt(daysRemaining));
@@ -26,50 +27,57 @@ const StatsTable = ({ processedData, setShowPins, showPins }: Props) => {
 
   const stats = [
     {
-      label: "Most Recent Distance",
-      value: {
-        km: processedData.lastDistance.toFixed(0),
-        miles: (processedData.lastDistance * 0.621371).toFixed(0),
-      },
-    },
-    {
       label: "Total distance",
       value: {
-        km: processedData.totalDistance.toFixed(0),
-        miles: (processedData.totalDistance * 0.621371).toFixed(0),
+        km: data.totalDistance.toFixed(0),
+        miles: (data.totalDistance * 0.621371).toFixed(0),
       },
+      alwaysShow: true,
+    },
+    {
+      label: "Most recent distance",
+      value: {
+        km: data.lastDistance.toFixed(0),
+        miles: (data.lastDistance * 0.621371).toFixed(0),
+      },
+      alwaysShow: true,
     },
     {
       label: "Total elevation",
       value: {
-        m: processedData.totalElevation.toFixed(0),
-        ft: (processedData.totalElevation * 0.621371).toFixed(0),
+        m: data.totalElevation.toFixed(0),
+        ft: (data.totalElevation * 0.621371).toFixed(0),
       },
+      alwaysShow: false,
     },
     {
-      label: "Est. Distance remaining",
+      label: "Distance remaining",
       value: {
-        km: (15000 - parseInt(processedData.totalDistance.toFixed(0))).toFixed(
-          0
-        ),
+        km: (15000 - parseInt(data.totalDistance.toFixed(0))).toFixed(0),
         miles: (
-          (15000 - parseInt(processedData.totalDistance.toFixed(0))) *
+          (15000 - parseInt(data.totalDistance.toFixed(0))) *
           0.621371
         ).toFixed(0),
+        alwaysShow: false,
       },
     },
   ];
-
   return (
     <div className="bg-white py-0.5 md:py-0">
-      <table className="w-full divide-y divide-gray-300 ">
-        <tbody className="divide-y divide-gray-200">
+      <table className="w-full divide-y divide-gray-300 lg:flex ">
+        <tbody className="divide-y divide-gray-200 w-full">
           {stats.map((stat) => (
-            <tr key={stat.label}>
-              <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
+            <tr
+              key={stat.label}
+              className={classNames(
+                !expandStats && !stat.alwaysShow && "hidden",
+                "flex justify-between "
+              )}
+            >
+              <td className="px-4 py-3 text-xs md:text-sm font-medium text-gray-900 capitalize">
                 {stat.label}
               </td>
-              <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
+              <td className="px-4 py-3 text-xs md:text-sm text-gray-500">
                 {miles
                   ? stat.value.miles
                     ? stat.value.miles
@@ -88,70 +96,73 @@ const StatsTable = ({ processedData, setShowPins, showPins }: Props) => {
               </td>
             </tr>
           ))}
-          <tr>
-            <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
-              Total Run time (hrs)
-            </td>
-            <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
-              {processedData.totalRunTime}
-            </td>
-          </tr>
-          <tr>
-            <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
-              Est. Days Remaining
-            </td>
-            <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500">
-              {daysRemaining}
-            </td>
-          </tr>
-          <tr>
-            <td className="px-4 py-0 md:py-4 text-xs md:text-sm font-medium text-gray-900">
-              Est. Finish Date
-            </td>
-            <td className="px-4 py-2 md:py-4 text-xs md:text-sm text-gray-500 w-48">
-              {endDate != ".." ? format(endDate, "dd/MM/yyyy") : ".."}
-            </td>
-          </tr>
-          {/* <tr>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              Weather at last location
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              <GetWeather lat={coords[0][0][0]} lng={coords[0][0][1]} />
-            </td>
-          </tr> */}
+          {expandStats && (
+            <>
+              <tr className="flex justify-between">
+                <td className="px-4 py-3 text-xs md:text-sm font-medium text-gray-900 capitalize">
+                  Total run time (hrs)
+                </td>
+                <td className="px-4 py-3 text-xs md:text-sm text-gray-500">
+                  {data.totalRunTime}
+                </td>
+              </tr>
+              <tr className="flex justify-between">
+                <td className="px-4 py-3 text-xs md:text-sm font-medium text-gray-900 capitalize">
+                  Est. days Remaining
+                </td>
+                <td className="px-4 py-3  text-xs md:text-sm text-gray-500">
+                  {daysRemaining}
+                </td>
+              </tr>
+              <tr className="flex justify-between">
+                <td className="px-4 py-3 text-xs md:text-sm font-medium text-gray-900 capitalize">
+                  Est. finish date
+                </td>
+                <td className="px-4 py-3 text-xs md:text-sm text-gray-500">
+                  {endDate != ".." ? format(endDate, "dd/MM/yyyy") : ".."}
+                </td>
+              </tr>
+            </>
+          )}
         </tbody>
       </table>
       <div
         style={{ pointerEvents: "all" }}
-        className="z-10 relative py-2 md:py-4 flex items-center bg-gray-50 justify-center gap-x-4 text-xs md:text-sm font-semibold"
+        className="py-2 pt-3 md:py-4 items-center bg-gray-50 justify-center gap-y-2 text-center text-xs md:text-sm font-semibold grid grid-cols-3 px-4"
       >
-        Kilometres
-        <UnitSwitch miles={miles} setMiles={setMiles} />
-        Miles
+        <div>
+          <UnitSwitch
+            checkedStatus={expandStats}
+            setCheckedStatus={setExpandStats}
+          />
+        </div>
+        <div>
+          <UnitSwitch
+            checkedStatus={showPins}
+            setCheckedStatus={onChangeShowPins}
+          />
+        </div>
+        <div>
+          <UnitSwitch checkedStatus={miles} setCheckedStatus={setMiles} />
+        </div>
+        <div>All Stats</div>
+        <div>Show Pins</div>
+        <div>KM/Miles</div>
       </div>
-      {/* <div
-        style={{ pointerEvents: "all" }}
-        className="z-10 relative py-2 md:py-4 flex items-center bg-gray-50 justify-center gap-x-4 text-xs md:text-sm font-semibold"
-      >
-        Show Pins
-        <PinSwitch showPins={showPins} setShowPins={setShowPins} />
-        Hide Pins
-      </div> */}
     </div>
   );
 };
 
 interface UnitSwitchProps {
-  miles: boolean;
-  setMiles: any;
+  checkedStatus: boolean;
+  setCheckedStatus: any;
 }
 
-const UnitSwitch = ({ miles, setMiles }: UnitSwitchProps) => {
+const UnitSwitch = ({ checkedStatus, setCheckedStatus }: UnitSwitchProps) => {
   return (
     <Switch
-      checked={miles}
-      onChange={setMiles}
+      checked={checkedStatus}
+      onChange={setCheckedStatus}
       className={classNames(
         "bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
       )}
@@ -160,33 +171,7 @@ const UnitSwitch = ({ miles, setMiles }: UnitSwitchProps) => {
       <span
         aria-hidden="true"
         className={classNames(
-          miles ? "translate-x-5" : "translate-x-0",
-          "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
-        )}
-      />
-    </Switch>
-  );
-};
-
-interface PinSwitchProps {
-  showPins: boolean;
-  setShowPins: any;
-}
-
-const PinSwitch = ({ showPins, setShowPins }: PinSwitchProps) => {
-  return (
-    <Switch
-      checked={showPins}
-      onChange={setShowPins}
-      className={classNames(
-        "bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
-      )}
-    >
-      <span className="sr-only">Use setting</span>
-      <span
-        aria-hidden="true"
-        className={classNames(
-          showPins ? "translate-x-5" : "translate-x-0",
+          checkedStatus ? "translate-x-5" : "translate-x-0",
           "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
         )}
       />

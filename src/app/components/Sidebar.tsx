@@ -5,13 +5,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
-import { length, lineString } from "@turf/turf";
 import Weather from "./Weather";
 import { InfoWindow } from "./InfoWindow";
 
 interface sidebarProps {
   data: any;
-  processedData: any;
   open: boolean;
   setOpen: any;
   day: any;
@@ -19,15 +17,9 @@ interface sidebarProps {
 
 export const revalidate = 600;
 
-export default function Sidebar({
-  open,
-  setOpen,
-  day,
-  data,
-  processedData,
-}: sidebarProps) {
+export default function Sidebar({ open, setOpen, day, data }: sidebarProps) {
   const [weather, setWeather] = useState<any>(null);
-  const activityId = data[day].activity_id;
+  const activityId = data.rawData[day].activity_id;
   useEffect(() => {
     if (open) {
       const getWeatherData = async () => {
@@ -51,7 +43,7 @@ export default function Sidebar({
   };
 
   const startDate = new Date("2023-04-22");
-  const relevantData = data[day];
+  const relevantData = data.rawData[day];
 
   const distance = relevantData.activity ? relevantData.activity.distance : "?";
   const elevation = relevantData.activity
@@ -113,8 +105,8 @@ export default function Sidebar({
                       </button>
                     </div>
                   </Transition.Child>
-                  <div className="h-full overflow-y-auto bg-white p-8 pb-36">
-                    <div className="space-y-6 pb-16">
+                  <div className="h-full overflow-y-auto bg-white p-8 pb-24">
+                    <div className="space-y-6">
                       <div>
                         <div className="mt-4 flex items-start justify-between">
                           <div>
