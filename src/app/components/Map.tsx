@@ -59,7 +59,6 @@ const Map = ({ data }: Props) => {
                     })}
                     eventHandlers={{
                       click: (e) => {
-                        console.log(i);
                         setOpen(true);
                         setDayNumber(i);
                       },
