@@ -13,9 +13,10 @@ type Props = {
 const Map = ({ data }: Props) => {
   const [showPins, setShowPins] = useState(true);
   const [open, setOpen] = useState(false);
-  const [dayNumber, setDayNumber] = useState(1);
+  const [dayNumber, setDayNumber] = useState(0);
   const coords = data.allCoords;
   const titles = data.titles;
+
   const onChangeShowPins = (pinStatus: boolean) => {
     setShowPins(pinStatus);
   };
@@ -58,6 +59,7 @@ const Map = ({ data }: Props) => {
                     })}
                     eventHandlers={{
                       click: (e) => {
+                        console.log(i);
                         setOpen(true);
                         setDayNumber(i);
                       },

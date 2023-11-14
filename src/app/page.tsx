@@ -1,3 +1,4 @@
+"use client";
 import { supabase } from "./lib/supabaseClient";
 import dynamic from "next/dynamic";
 import PlausibleProvider from "next-plausible";
@@ -28,7 +29,7 @@ async function getLiveWeather(data: any) {
 async function getData() {
   const { data, error } = await supabase
     .from("russ-activities")
-    .select("geo_json, activity, activity_id, date")
+    .select("id, geo_json, activity, activity_id, date")
     .order("date", { ascending: false });
   if (error) console.log("error", error);
   return data;
@@ -49,7 +50,9 @@ export default async function Page() {
           }
         );
         return activity;
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     })
     .filter((activity: any) => activity !== undefined);
 
