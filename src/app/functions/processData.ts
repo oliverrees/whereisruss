@@ -10,9 +10,6 @@ interface Result {
 }
 
 export const processData = (data: any): Result => {
-  // console.log(data, metaData);
-
-  // Add distance to each activity
   const totalDistance = data.reduce((total: any, activity: any) => {
     const distance = activity.activity.distance.replace("km", "");
     return total + parseFloat(distance);
@@ -32,8 +29,6 @@ export const processData = (data: any): Result => {
       runTime.secs += parseInt(time[2]);
     }
   });
-
-  console.log(runTime);
 
   const totalRunTime = (
     runTime.hours +

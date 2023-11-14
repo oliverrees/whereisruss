@@ -41,9 +41,9 @@ export default async function Page() {
   const [showPins, setShowPins] = useState(true);
   const data: any = await getData();
 
-  const newData = data
+  const filteredData = data
     .map((activity: any) => {
-      // Reverse the first and second numbers in each coordinate pair
+      // Reverse the first and second numbers in each coordinate pair for leaflet
       try {
         activity.geo_json.features[0].geometry.coordinates.forEach(
           (coordinate: number[]) => {
@@ -53,16 +53,14 @@ export default async function Page() {
           }
         );
         return activity;
-      } catch (error) {
-      }
+      } catch (error) {}
     })
     .filter((activity: any) => activity !== undefined);
 
-
-  const liveWeather = await getLiveWeather(newData);
+  const liveWeather = await getLiveWeather(filteredData);
 
   const [locationData, liveWeatherData] = await Promise.all([
-    newData,
+    filteredData,
     liveWeather,
   ]);
   const processedData = processData(locationData);
@@ -77,7 +75,7 @@ export default async function Page() {
           setShowPins={setShowPins}
         />
         <MapHolder
-          data={newData}
+          data={filteredData}
           processedData={processedData}
           showPins={showPins}
         />
