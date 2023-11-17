@@ -99,8 +99,16 @@ const StatsTable = ({ data, onChangeShowPins, showPins }: Props) => {
           {expandStats && (
             <>
               <tr className="flex justify-between">
-                <td className="px-4 py-3 text-xs md:text-sm font-medium text-gray-900 capitalize">
-                  Total run time (hrs)
+                <td className="px-4 py-3 text-xs md:text-sm font-medium text-gray-900 ">
+                  Avg Run Pace (mins/km)
+                </td>
+                <td className="px-4 py-3 text-xs md:text-sm text-gray-500">
+                  {data.avgRunPace.toFixed(2)} / km
+                </td>
+              </tr>
+              <tr className="flex justify-between">
+                <td className="px-4 py-3 text-xs md:text-sm font-medium text-gray-900">
+                  Total Run Time (hrs)
                 </td>
                 <td className="px-4 py-3 text-xs md:text-sm text-gray-500">
                   {data.totalRunTime}

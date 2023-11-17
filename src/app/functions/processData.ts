@@ -2,7 +2,8 @@ interface Result {
   totalDistance: number;
   lastDistance: number;
   totalElevation: number;
-  totalRunTime: string;
+  totalRunTime: number;
+  avgRunPace: number;
   allCoords: number[][];
   titles: string[];
   rawData: {
@@ -29,28 +30,33 @@ export const processData = (data: any): Result => {
     return total + parseFloat(distance);
   }, 0);
 
-  const runTime = {
-    hours: 0,
-    mins: 0,
-    secs: 0,
-  };
+  function sumTimes(times: any) {
+    let totalSeconds = times.reduce((total: any, time: any) => {
+      const parts = time.split(":").reverse();
+      let seconds = parseInt(parts[0]) || 0; // seconds
+      let minutes = parseInt(parts[1]) || 0; // minutes
+      let hours = parseInt(parts[2]) || 0; // hours
 
-  data.forEach((activity: any) => {
-    const time = activity.activity.movingTime.split(":");
-    if (time.length > 1) {
-      runTime.hours += parseInt(time[0]);
-      runTime.mins += parseInt(time[1]);
-      if (time[2]) {
-        runTime.secs += parseInt(time[2]);
-      }
-    }
-  });
+      return total + seconds + minutes * 60 + hours * 3600;
+    }, 0);
 
-  const totalRunTime = (
-    runTime.hours +
-    runTime.mins / 60 +
-    runTime.secs / 3600
-  ).toFixed(0);
+    // Converting total seconds back to hours:minutes:seconds
+    let hours = Math.floor(totalSeconds / 3600);
+    totalSeconds %= 3600;
+
+    return hours;
+  }
+
+  function calculateAveragePace(distanceKm: number, timeHours: number): number {
+    const paceHoursPerKm = timeHours / distanceKm;
+    return paceHoursPerKm * 60;
+  }
+
+  const totalRunTime = sumTimes(
+    data.map((activity: any) => activity.activity.movingTime)
+  );
+
+  const avgRunPace = calculateAveragePace(totalDistance, totalRunTime);
 
   const totalElevation = data.reduce((total: any, activity: any) => {
     const elevation = activity.activity.elevation.replace("m", "");
@@ -75,6 +81,7 @@ export const processData = (data: any): Result => {
     totalElevation,
     lastDistance,
     totalRunTime,
+    avgRunPace,
     allCoords,
     titles,
   };
