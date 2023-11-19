@@ -69,12 +69,16 @@ export const processData = (data: any): Result => {
     .map((activity: any) => {
       titles.push(activity.date);
       try {
-        return activity.geo_json.features[0].geometry.coordinates;
+        const coords = activity.geo_json.features[0].geometry.coordinates;
+        return {
+          activity_id: activity.activity_id,
+          coords,
+        };
       } catch (error) {
         return [];
       }
     })
-    .filter((activity: any) => activity.length > 0);
+    .filter((activity: any) => activity.coords);
 
   // Get last days distance
   const lastDistance = parseFloat(data[0].activity.distance.replace("km", ""));

@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabaseClient";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import INFO_NOTES from "../data/infoNotes.json";
 
 import Weather from "./Weather";
 import { InfoWindow } from "./InfoWindow";
@@ -12,14 +13,20 @@ interface sidebarProps {
   data: any;
   open: boolean;
   setOpen: any;
-  day: any;
+  activityId: any;
 }
 
 export const revalidate = 600;
 
-export default function Sidebar({ open, setOpen, day, data }: sidebarProps) {
+export default function Sidebar({
+  open,
+  setOpen,
+  activityId,
+  data,
+}: sidebarProps) {
   const [weather, setWeather] = useState<any>(null);
-  const activityId = data.rawData[day].activity_id;
+
+  const infoNotes = INFO_NOTES as any;
   useEffect(() => {
     if (open) {
       const getWeatherData = async () => {
@@ -43,7 +50,10 @@ export default function Sidebar({ open, setOpen, day, data }: sidebarProps) {
   };
 
   const startDate = new Date("2023-04-22");
-  const relevantData = data.rawData[day];
+  const relevantData = data.rawData.find(
+    (activity: any) => activity.activity_id === activityId
+  );
+  if (!relevantData) return null;
 
   const distance = relevantData.activity ? relevantData.activity.distance : "?";
   const elevation = relevantData.activity
@@ -123,12 +133,11 @@ export default function Sidebar({ open, setOpen, day, data }: sidebarProps) {
                         </div>
                       </div>
                       <div>
-                        {relevantData.activity_id === "9584255228" && (
+                        {infoNotes[relevantData.activity_id] && (
                           <InfoWindow>
-                            Russ was separated from the support van after some
-                            impassable roads in the planned route.{" "}
+                            {infoNotes[relevantData.activity_id].message}{" "}
                             <Link
-                              href="https://twitter.com/hardestgeezer/status/1688280312441102337"
+                              href={infoNotes[relevantData.activity_id].link}
                               target="new"
                               className="underline"
                             >

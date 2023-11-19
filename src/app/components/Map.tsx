@@ -13,7 +13,7 @@ type Props = {
 const Map = ({ data }: Props) => {
   const [showPins, setShowPins] = useState(true);
   const [open, setOpen] = useState(false);
-  const [dayNumber, setDayNumber] = useState(0);
+  const [id, setId] = useState(0);
   const coords = data.allCoords;
   const titles = data.titles;
 
@@ -28,10 +28,10 @@ const Map = ({ data }: Props) => {
         showPins={showPins}
         onChangeShowPins={onChangeShowPins}
       />
-      <Sidebar open={open} setOpen={setOpen} day={dayNumber} data={data} />
+      <Sidebar open={open} setOpen={setOpen} activityId={id} data={data} />
       <div className="h-full fixed top-0 left-0 bottom-0 right-0 z-0 w-full">
         <MapContainer
-          center={[coords[0][0][0], coords[0][0][1]]}
+          center={[coords[0].coords[0][0], coords[0].coords[0][1]]}
           zoom={7}
           maxZoom={12}
           minZoom={4}
@@ -47,7 +47,7 @@ const Map = ({ data }: Props) => {
               <div key={i}>
                 <Polyline
                   pathOptions={{ fillColor: "red", color: "#FF0000" }}
-                  positions={activity}
+                  positions={activity.coords}
                 />
                 {showPins && titles[i] && (
                   <Marker
@@ -59,11 +59,11 @@ const Map = ({ data }: Props) => {
                     })}
                     eventHandlers={{
                       click: (e) => {
-                        setOpen(true);
-                        setDayNumber(i);
+                        setId(activity.activity_id);
+                        setTimeout(() => setOpen(true), 100);
                       },
                     }}
-                    position={activity[activity.length - 1]}
+                    position={[activity.coords[0][0], activity.coords[0][1]]}
                   />
                 )}
               </div>

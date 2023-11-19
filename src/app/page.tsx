@@ -1,3 +1,4 @@
+"use client";
 import { supabase } from "./lib/supabaseClient";
 import dynamic from "next/dynamic";
 import PlausibleProvider from "next-plausible";
@@ -29,7 +30,7 @@ async function getData() {
   const { data, error } = await supabase
     .from("russ-activities")
     .select("id, geo_json, activity, activity_id, date")
-    .order("date", { ascending: false });
+    .order("date", { ascending: true });
   if (error) console.log("error", error);
   return data;
 }
