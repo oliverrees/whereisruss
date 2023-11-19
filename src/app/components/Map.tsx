@@ -63,7 +63,10 @@ const Map = ({ data }: Props) => {
                         setTimeout(() => setOpen(true), 100);
                       },
                     }}
-                    position={[activity.coords[0][0], activity.coords[0][1]]}
+                    position={[
+                      activity.coords[activity.coords.length - 1][0],
+                      activity.coords[activity.coords.length - 1][1],
+                    ]}
                   />
                 )}
               </div>
