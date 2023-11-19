@@ -29,8 +29,8 @@ const StatsTable = ({ data, onChangeShowPins, showPins }: Props) => {
     {
       label: "Total distance",
       value: {
-        km: data.totalDistance.toFixed(0),
-        miles: (data.totalDistance * 0.621371).toFixed(0),
+        km: data.totalDistance.toFixed(1),
+        miles: (data.totalDistance * 0.621371).toFixed(1),
       },
       alwaysShow: true,
     },
@@ -41,14 +41,6 @@ const StatsTable = ({ data, onChangeShowPins, showPins }: Props) => {
         miles: (data.lastDistance * 0.621371).toFixed(0),
       },
       alwaysShow: true,
-    },
-    {
-      label: "Total elevation",
-      value: {
-        m: data.totalElevation.toFixed(0),
-        ft: (data.totalElevation * 0.621371).toFixed(0),
-      },
-      alwaysShow: false,
     },
     {
       label: "Distance remaining",
@@ -78,13 +70,7 @@ const StatsTable = ({ data, onChangeShowPins, showPins }: Props) => {
                 {stat.label}
               </td>
               <td className="px-4 py-3 text-xs md:text-sm text-gray-500">
-                {miles
-                  ? stat.value.miles
-                    ? stat.value.miles
-                    : stat.value.ft
-                  : stat.value.km
-                  ? stat.value.km
-                  : stat.value.m}
+                {miles ? stat.value.miles : stat.value.km}
                 &nbsp;
                 {miles
                   ? stat.label == "Total elevation"

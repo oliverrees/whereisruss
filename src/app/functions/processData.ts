@@ -28,7 +28,7 @@ export const processData = (data: any): Result => {
   const totalDistance = data.reduce((total: any, activity: any) => {
     const distance = activity.activity.distance.replace("km", "");
     return total + parseFloat(distance);
-  }, 0);
+  }, 0.7);
 
   function sumTimes(times: any) {
     let totalSeconds = times.reduce((total: any, time: any) => {
@@ -65,10 +65,16 @@ export const processData = (data: any): Result => {
 
   // Process coords of all activities
   const titles: string[] = [];
-  const allCoords: any = data.map((activity: any) => {
-    titles.push(activity.date);
-    return activity.geo_json.features[0].geometry.coordinates;
-  });
+  const allCoords: any = data
+    .map((activity: any) => {
+      titles.push(activity.date);
+      try {
+        return activity.geo_json.features[0].geometry.coordinates;
+      } catch (error) {
+        return [];
+      }
+    })
+    .filter((activity: any) => activity.length > 0);
 
   // Get last days distance
   const lastDistance = parseFloat(data[0].activity.distance.replace("km", ""));
