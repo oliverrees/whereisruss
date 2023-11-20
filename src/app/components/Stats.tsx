@@ -62,6 +62,13 @@ const Stats = ({ data, onChangeShowPins, showPins }: Props) => {
           >
             Twitter
           </Link>
+          <Link
+            target="_blank"
+            className="border-b"
+            href="https://github.com/oliverrees/whereisruss"
+          >
+            Github
+          </Link>
         </div>
       </div>
       <StatsTable
