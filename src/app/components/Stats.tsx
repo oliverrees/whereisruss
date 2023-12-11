@@ -21,7 +21,7 @@ const Stats = ({ data, onChangeShowPins, showPins }: Props) => {
     const day = currentDate.getUTCDate();
     const timeSinceStart = differenceInDays(
       new Date(year, month, day),
-      new Date(2023, 4, 22)
+      new Date(2023, 4, 23)
     );
     setTimeSinceStart(`Day ${timeSinceStart}`);
   }, []);
