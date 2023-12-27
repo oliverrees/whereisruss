@@ -28,7 +28,7 @@ export const processData = (data: any): Result => {
   const totalDistance = data.reduce((total: any, activity: any) => {
     const distance = activity.activity.distance.replace("km", "");
     return total + parseFloat(distance);
-  }, 0.9);
+  }, 1.5);
 
   function sumTimes(times: any) {
     let totalSeconds = times.reduce((total: any, time: any) => {
