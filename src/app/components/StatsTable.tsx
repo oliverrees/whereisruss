@@ -16,7 +16,7 @@ export const revalidate = 600;
 
 const StatsTable = ({ data, onChangeShowPins, showPins }: Props) => {
   const [endDate, setEndDate] = useState<any>("..");
-  const daysRemaining = ((15000 - data.totalDistance) / 60).toFixed(0);
+  const daysRemaining = ((16595 - data.totalDistance) / 60).toFixed(0);
   const [miles, setMiles] = useState(false);
   const [expandStats, setExpandStats] = useState(false);
 
