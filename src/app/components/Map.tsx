@@ -1,10 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
 import L from "leaflet";
 import Stats from "./Stats";
 import Sidebar from "./Sidebar";
+import Loading from "./Loading";
 
 type Props = {
   data: any;

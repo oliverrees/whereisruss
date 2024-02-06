@@ -3,9 +3,11 @@ import dynamic from "next/dynamic";
 import PlausibleProvider from "next-plausible";
 const Map = dynamic(() => import("./components/Map"), {
   ssr: false,
+  loading: () => <Loading />,
 });
 import { processData } from "./functions/processData";
 import LiveWeather from "./components/LiveWeather";
+import Loading from "./components/Loading";
 
 export const revalidate = 600;
 
