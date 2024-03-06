@@ -6,6 +6,8 @@ interface Props {
   data: any;
   onChangeShowPins: (pinStatus: boolean) => void;
   showPins: boolean;
+  showSatellite: boolean;
+  onChangeShowSatellite: (satelliteStatus: boolean) => void;
 }
 
 function classNames(...classes: any[]) {
@@ -14,7 +16,13 @@ function classNames(...classes: any[]) {
 
 export const revalidate = 600;
 
-const StatsTable = ({ data, onChangeShowPins, showPins }: Props) => {
+const StatsTable = ({
+  data,
+  onChangeShowPins,
+  showPins,
+  onChangeShowSatellite,
+  showSatellite,
+}: Props) => {
   const [endDate, setEndDate] = useState<any>("..");
   const daysRemaining = ((16595 - data.totalDistance) / 60).toFixed(0);
   const [miles, setMiles] = useState(false);
@@ -58,32 +66,33 @@ const StatsTable = ({ data, onChangeShowPins, showPins }: Props) => {
     <div className="bg-white py-0.5 md:py-0">
       <table className="w-full divide-y divide-gray-300 lg:flex ">
         <tbody className="divide-y divide-gray-200 w-full">
-          {stats.map((stat) => (
-            <tr
-              key={stat.label}
-              className={classNames(
-                !expandStats && !stat.alwaysShow && "hidden",
-                "flex justify-between "
-              )}
-            >
-              <td className="px-4 py-3 text-xs md:text-sm font-medium text-gray-900 capitalize">
-                {stat.label}
-              </td>
-              <td className="px-4 py-3 text-xs md:text-sm text-gray-500">
-                {miles ? stat.value.miles : stat.value.km}
-                &nbsp;
-                {miles
-                  ? stat.label == "Total elevation"
-                    ? "ft"
-                    : "miles"
-                  : stat.label == "Total elevation"
-                  ? "m"
-                  : "km"}
-              </td>
-            </tr>
-          ))}
           {expandStats && (
             <>
+              {stats.map((stat) => (
+                <tr
+                  key={stat.label}
+                  className={classNames(
+                    !expandStats && !stat.alwaysShow && "hidden",
+                    "flex justify-between "
+                  )}
+                >
+                  <td className="px-4 py-3 text-xs md:text-sm font-medium text-gray-900 capitalize">
+                    {stat.label}
+                  </td>
+                  <td className="px-4 py-3 text-xs md:text-sm text-gray-500">
+                    {miles ? stat.value.miles : stat.value.km}
+                    &nbsp;
+                    {miles
+                      ? stat.label == "Total elevation"
+                        ? "ft"
+                        : "miles"
+                      : stat.label == "Total elevation"
+                      ? "m"
+                      : "km"}
+                  </td>
+                </tr>
+              ))}
+
               <tr className="flex justify-between">
                 <td className="px-4 py-3 text-xs md:text-sm font-medium text-gray-900 ">
                   Avg Run Pace (mins/km)
@@ -122,12 +131,18 @@ const StatsTable = ({ data, onChangeShowPins, showPins }: Props) => {
       </table>
       <div
         style={{ pointerEvents: "all" }}
-        className="py-2 pt-3 md:py-4 items-center bg-gray-50 justify-center gap-y-2 text-center text-xs md:text-sm font-semibold grid grid-cols-3 px-4"
+        className="py-2 pt-3 md:py-4 items-center bg-gray-50 justify-center gap-y-2 text-center text-xs md:text-sm font-semibold grid grid-cols-4 px-4"
       >
         <div>
           <UnitSwitch
             checkedStatus={expandStats}
             setCheckedStatus={setExpandStats}
+          />
+        </div>
+        <div>
+          <UnitSwitch
+            checkedStatus={showSatellite}
+            setCheckedStatus={onChangeShowSatellite}
           />
         </div>
         <div>
@@ -139,8 +154,9 @@ const StatsTable = ({ data, onChangeShowPins, showPins }: Props) => {
         <div>
           <UnitSwitch checkedStatus={miles} setCheckedStatus={setMiles} />
         </div>
-        <div>All Stats</div>
-        <div>Show Pins</div>
+        <div>Stats</div>
+        <div>Satellite</div>
+        <div>Pins</div>
         <div>KM/Miles</div>
       </div>
     </div>

@@ -15,11 +15,19 @@ const Map = ({ data }: Props) => {
   const [showPins, setShowPins] = useState(true);
   const [open, setOpen] = useState(false);
   const [id, setId] = useState(0);
+  const [showSatellite, setShowSatellite] = useState(false);
   const coords = data.allCoords;
   const titles = data.titles;
+  const tileUrl = showSatellite
+    ? "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+    : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
 
   const onChangeShowPins = (pinStatus: boolean) => {
     setShowPins(pinStatus);
+  };
+
+  const onChangeShowSatellite = (satelliteStatus: boolean) => {
+    setShowSatellite(satelliteStatus);
   };
 
   return (
@@ -27,7 +35,9 @@ const Map = ({ data }: Props) => {
       <Stats
         data={data}
         showPins={showPins}
+        showSatellite={showSatellite}
         onChangeShowPins={onChangeShowPins}
+        onChangeShowSatellite={onChangeShowSatellite}
       />
       <Sidebar open={open} setOpen={setOpen} activityId={id} data={data} />
       <div className="h-full fixed top-0 left-0 bottom-0 right-0 z-0 w-full">
@@ -41,7 +51,7 @@ const Map = ({ data }: Props) => {
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            url={tileUrl}
           />
           {coords.map((activity: any, i: number) => {
             return (

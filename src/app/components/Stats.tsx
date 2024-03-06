@@ -7,12 +7,20 @@ import { useEffect, useState } from "react";
 type Props = {
   data: any;
   onChangeShowPins: (pinStatus: boolean) => void;
+  onChangeShowSatellite: (satelliteStatus: boolean) => void;
+  showSatellite: boolean;
   showPins: boolean;
 };
 
 export const revalidate = 600;
 
-const Stats = ({ data, onChangeShowPins, showPins }: Props) => {
+const Stats = ({
+  data,
+  onChangeShowPins,
+  showPins,
+  showSatellite,
+  onChangeShowSatellite,
+}: Props) => {
   const [timeSinceStart, setTimeSinceStart] = useState("..");
   useEffect(() => {
     const currentDate = new Date();
@@ -28,7 +36,12 @@ const Stats = ({ data, onChangeShowPins, showPins }: Props) => {
 
   return (
     <div className="fixed bottom-0 md:bottom-10 left-0 md:left-10 right-0 md:right-10 overflow-hidden pointer-events-none shadow-lg md:rounded-lg z-20 md:max-w-sm">
-      <div className="md:bg-white pb-2 pt-4 ">
+      <div
+        className={`md:bg-white pb-2 pt-4 ${
+          showSatellite &&
+          "text-white md:text-black [text-shadow:_0_1px_1px_rgb(0_0_0_/_80%)] md:[text-shadow:none]"
+        }`}
+      >
         <div className="text-3xl md:text-4xl font-bold pl-4">
           {timeSinceStart}
         </div>
@@ -75,6 +88,8 @@ const Stats = ({ data, onChangeShowPins, showPins }: Props) => {
         data={data}
         showPins={showPins}
         onChangeShowPins={onChangeShowPins}
+        showSatellite={showSatellite}
+        onChangeShowSatellite={onChangeShowSatellite}
       />
     </div>
   );
