@@ -1,3 +1,4 @@
+"use client";
 import { supabase } from "./lib/supabaseClient";
 import dynamic from "next/dynamic";
 import PlausibleProvider from "next-plausible";
@@ -38,7 +39,6 @@ async function getData() {
 
 export default async function Page() {
   const retrievedData: any = await getData();
-
   const filteredData = retrievedData.map((activity: any) => {
     // Reverse the first and second numbers in each coordinate pair for leaflet
     try {
