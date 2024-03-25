@@ -24,7 +24,7 @@ const StatsTable = ({
   showSatellite,
 }: Props) => {
   const [endDate, setEndDate] = useState<any>("..");
-  const daysRemaining = ((16595 - data.totalDistance) / 60).toFixed(0);
+  const daysRemaining = ((16595 - data.totalDistance) / 70).toFixed(0);
   const [miles, setMiles] = useState(false);
   const [expandStats, setExpandStats] = useState(false);
 
@@ -53,9 +53,9 @@ const StatsTable = ({
     {
       label: "Distance remaining",
       value: {
-        km: (15000 - parseInt(data.totalDistance.toFixed(0))).toFixed(0),
+        km: (16000 - parseInt(data.totalDistance.toFixed(0))).toFixed(0),
         miles: (
-          (15000 - parseInt(data.totalDistance.toFixed(0))) *
+          (16000 - parseInt(data.totalDistance.toFixed(0))) *
           0.621371
         ).toFixed(0),
         alwaysShow: false,
