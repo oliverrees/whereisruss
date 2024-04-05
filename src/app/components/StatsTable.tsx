@@ -50,17 +50,6 @@ const StatsTable = ({
       },
       alwaysShow: true,
     },
-    {
-      label: "Distance remaining",
-      value: {
-        km: (16000 - parseInt(data.totalDistance.toFixed(0))).toFixed(0),
-        miles: (
-          (16000 - parseInt(data.totalDistance.toFixed(0))) *
-          0.621371
-        ).toFixed(0),
-        alwaysShow: false,
-      },
-    },
   ];
   return (
     <div className="bg-white py-0.5 md:py-0">
@@ -107,22 +96,6 @@ const StatsTable = ({
                 </td>
                 <td className="px-4 py-3 text-xs md:text-sm text-gray-500">
                   {data.totalRunTime}
-                </td>
-              </tr>
-              <tr className="flex justify-between">
-                <td className="px-4 py-3 text-xs md:text-sm font-medium text-gray-900 capitalize">
-                  Est. days Remaining
-                </td>
-                <td className="px-4 py-3  text-xs md:text-sm text-gray-500">
-                  {daysRemaining}
-                </td>
-              </tr>
-              <tr className="flex justify-between">
-                <td className="px-4 py-3 text-xs md:text-sm font-medium text-gray-900 capitalize">
-                  Est. finish date
-                </td>
-                <td className="px-4 py-3 text-xs md:text-sm text-gray-500">
-                  {endDate != ".." ? format(endDate, "dd/MM/yyyy") : ".."}
                 </td>
               </tr>
             </>
