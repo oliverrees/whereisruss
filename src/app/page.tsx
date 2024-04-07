@@ -69,7 +69,7 @@ export default function Page() {
   return (
     <PlausibleProvider domain="whereisruss.vercel.app">
       <div className="w-full h-full overflow-hidden">
-        <LiveWeather data={liveWeatherData} />
+        {/* <LiveWeather data={liveWeatherData} /> */}
         <Map data={data} />
       </div>
     </PlausibleProvider>

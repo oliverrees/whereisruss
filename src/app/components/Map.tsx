@@ -42,10 +42,10 @@ const Map = ({ data }: Props) => {
       <Sidebar open={open} setOpen={setOpen} activityId={id} data={data} />
       <div className="h-full fixed top-0 left-0 bottom-0 right-0 z-0 w-full">
         <MapContainer
-          center={[coords[0].coords[0][0], coords[0].coords[0][1]]}
-          zoom={7}
+          center={[2.6747893, 14.8896634]}
+          zoom={3}
           maxZoom={12}
-          minZoom={4}
+          minZoom={1}
           className="w-full h-screen"
           scrollWheelZoom={true}
         >
