@@ -67,6 +67,7 @@ export default function Sidebar({
     "Day " + (differenceInDays(new Date(relevantData.date), startDate) + 1);
 
   const stravaLink = `https://www.strava.com/activities/${relevantData.activity_id}`;
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-30" onClose={closeSidebar}>
@@ -158,6 +159,44 @@ export default function Sidebar({
                           <div className="flex justify-between py-3 text-sm font-medium">
                             <dt className="text-gray-500">Moving Time</dt>
                             <dd className="text-gray-900">{movingTime}</dd>
+                          </div>
+                          <div className="flex justify-between py-3 text-sm font-medium">
+                            <dt className="text-gray-500">End Coordinates</dt>
+                            <dd className="text-gray-900">
+                              <Link
+                                href={`https://www.google.co.uk/maps/@${
+                                  relevantData.geo_json.features[0].geometry
+                                    .coordinates[
+                                    relevantData.geo_json.features[0].geometry
+                                      .coordinates.length - 1
+                                  ][0]
+                                },${
+                                  relevantData.geo_json.features[0].geometry
+                                    .coordinates[
+                                    relevantData.geo_json.features[0].geometry
+                                      .coordinates.length - 1
+                                  ][1]
+                                },20z`}
+                                target="new"
+                                className="underline"
+                              >
+                                {
+                                  relevantData.geo_json.features[0].geometry
+                                    .coordinates[
+                                    relevantData.geo_json.features[0].geometry
+                                      .coordinates.length - 1
+                                  ][0]
+                                }
+                                ,{" "}
+                                {
+                                  relevantData.geo_json.features[0].geometry
+                                    .coordinates[
+                                    relevantData.geo_json.features[0].geometry
+                                      .coordinates.length - 1
+                                  ][1]
+                                }
+                              </Link>
+                            </dd>
                           </div>
                         </dl>
                       </div>
